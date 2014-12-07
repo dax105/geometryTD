@@ -8,6 +8,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
+import cz.dat.geometrytd.manager.FontManager;
 import cz.dat.geometrytd.manager.TextureManager;
 
 public class Game implements Runnable {
@@ -23,6 +24,7 @@ public class Game implements Runnable {
 	private static final int MAGIC_CONSTANT = 1000000000;
 	
 	private TextureManager textureManager;
+	private FontManager fontManager;
 
 	private void tick(int ticks) {
 
@@ -71,6 +73,7 @@ public class Game implements Runnable {
 		Game.initDisplay();
 		
 		this.textureManager = new TextureManager();
+		this.fontManager = new FontManager();
 
 		long time = System.nanoTime();
 		long lastTime = time;
@@ -110,10 +113,15 @@ public class Game implements Runnable {
 		}
 		
 		this.textureManager.dispose();
+		this.fontManager.dispose();
 	}
 
 	public TextureManager getTextureManager() {
 		return this.textureManager;
+	}
+	
+	public FontManager getFontManager() {
+		return this.fontManager;
 	}
 	
 	public static void initDisplay() {
