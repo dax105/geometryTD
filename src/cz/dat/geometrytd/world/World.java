@@ -13,7 +13,8 @@ public class World extends TickListener {
 	public World(Game game) {
 		super(game);
 		
-		this.changeLevel(new Level(game, 3));
+		this.changeLevel(new Level(game, 3, 
+				new LevelParser(this.getClass().getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
 	}
 	
 	
