@@ -81,7 +81,7 @@ public class Game implements Runnable {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		bindTex(fboTextures[0].getId());
 		GL20.glUseProgram(verticalBlur.getProgramID());
-		drawFullscreenQuad();
+		drawHalfFullscreenQuad();
 		
 		/*
 		 * COMPOSE
@@ -92,12 +92,16 @@ public class Game implements Runnable {
 		
 		GL20.glUseProgram(0);
 		
+		GL11.glColor4f(1, 1, 1, 1);
+		bindTex(fboTextures[0].getId());
+		drawFullscreenQuad();
+		
+		GL11.glColor4f(1, 1, 1, 0.5f);
 		bindTex(fboTextures[1].getId());
 		drawFullscreenQuad();
 	}
 	
 	private void drawFullscreenQuad() {
-		GL11.glColor3f(1, 1, 1);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0, 1);
 		GL11.glVertex2f(0, 0);
@@ -105,6 +109,21 @@ public class Game implements Runnable {
 		GL11.glVertex2f(Game.WINDOW_WIDTH, 0);
 		GL11.glTexCoord2f(1, 0);
 		GL11.glVertex2f(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+		GL11.glTexCoord2f(0, 0);
+		GL11.glVertex2f(0, Game.WINDOW_HEIGHT);
+		GL11.glEnd();
+	}
+	
+	private void drawHalfFullscreenQuad() {
+		int halfh = WINDOW_HEIGHT-WINDOW_HEIGHT/4;
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 1);
+		GL11.glVertex2f(0, halfh);
+		GL11.glTexCoord2f(1, 1);
+		GL11.glVertex2f(Game.WINDOW_WIDTH/4, halfh);
+		GL11.glTexCoord2f(1, 0);
+		GL11.glVertex2f(Game.WINDOW_WIDTH/4, Game.WINDOW_HEIGHT);
 		GL11.glTexCoord2f(0, 0);
 		GL11.glVertex2f(0, Game.WINDOW_HEIGHT);
 		GL11.glEnd();
@@ -128,7 +147,12 @@ public class Game implements Runnable {
 		this.verticalBlur = new ShaderProgram("cz/dat/geometrytd/gl/shaders/glow");
 		
 		for (int i = 0; i < this.frameBuffers.length; i++) {
-			FramebufferObject f = new FramebufferObject(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+			FramebufferObject f; 
+			if (i != 1) { 
+				f = new FramebufferObject(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+			} else {
+				f = new FramebufferObject(Game.WINDOW_WIDTH/4, Game.WINDOW_HEIGHT/4);
+			}
 			Texture2D t = new Texture2D(f, GL11.GL_RGB8, GL11.GL_RGB, GL11.GL_INT);
 			f.attachTexture(t, EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT);
 			frameBuffers[i] = f;
