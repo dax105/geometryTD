@@ -8,8 +8,19 @@ import cz.dat.geometrytd.gl.GLUtil;
 
 public class World extends TickListener {
 
+	private Level currentLevel;
+	
 	public World(Game game) {
 		super(game);
+		
+		this.changeLevel(new Level(game, 3));
+	}
+	
+	
+	private void changeLevel(Level newLevel) {
+		this.children.remove(this.currentLevel);
+		this.currentLevel = newLevel;
+		this.children.add(this.currentLevel);
 	}
 	
 	@Override

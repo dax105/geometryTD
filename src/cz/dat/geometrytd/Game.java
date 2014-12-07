@@ -23,8 +23,8 @@ import cz.dat.geometrytd.world.World;
 
 public class Game implements Runnable {
 
-	public static final int WINDOW_WIDTH = 854;
-	public static final int WINDOW_HEIGHT = 480;
+	public static final int WINDOW_WIDTH = 960;
+	public static final int WINDOW_HEIGHT = 540;
 	public static final String GAME_NAME = "Geometry TD";
 	public static final String RES_DIR = "/cz/dat/geometrytd/resources/";
 	public static final Logger log = Logger.getLogger("GeometryTD_log");
