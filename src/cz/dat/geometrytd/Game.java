@@ -14,6 +14,7 @@ public class Game implements Runnable {
 
 	private static final int TPS = 20;
 	private static final double TICK_TIME = 1.0D / TPS;
+	private static final int MAGIC_CONSTANT = 1000000000;
 
 	private void tick(int ticks) {
 
@@ -42,19 +43,19 @@ public class Game implements Runnable {
 						+ GLU.gluErrorString(e));
 			}
 
-			float ptt = (time - lastTime) / ((float) Game.TICK_TIME * 1000000000);
+			float ptt = (time - lastTime) / ((float) Game.TICK_TIME * Game.MAGIC_CONSTANT);
 
 			this.renderTick(ptt);
 			fps++;
 
 			time = System.nanoTime();
-			while (time - lastTime >= Game.TICK_TIME * 1000000000) {
+			while (time - lastTime >= Game.TICK_TIME * Game.MAGIC_CONSTANT) {
 				this.tick(ticks++);
-				lastTime += Game.TICK_TIME * 1000000000;
+				lastTime += Game.TICK_TIME * Game.MAGIC_CONSTANT;
 			}
 
-			if (time - lastInfo >= 1000000000) {
-				lastInfo += 1000000000;
+			if (time - lastInfo >= Game.MAGIC_CONSTANT) {
+				lastInfo += Game.MAGIC_CONSTANT;
 				Display.setTitle(Game.GAME_NAME + " - " + fps + " fps - "
 						+ (ticks - lastTicks) + " tps");
 				lastTicks = ticks;
