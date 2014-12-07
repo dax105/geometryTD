@@ -11,6 +11,7 @@ import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class ShaderProgram {
 
@@ -86,7 +87,7 @@ public class ShaderProgram {
 	}
 
 	private static String readShader(String path) {
-		InputStream in = ShaderProgram.class.getResourceAsStream(path);
+		InputStream in = ResourceLoader.getResourceAsStream(path);
 		
 		StringBuilder source = new StringBuilder();
 		BufferedReader reader;
