@@ -7,7 +7,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.glu.GLU;
 
@@ -71,7 +70,7 @@ public class Game implements Runnable {
 		
 		this.textureManager.clearBind();
 		
-		fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.white);
+		//fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.white);
 		
 		/*
 		 * GLOW
@@ -98,7 +97,7 @@ public class Game implements Runnable {
 		
 		GL11.glColor4f(1, 1, 1, 0.5f);
 		bindTex(fboTextures[1].getId());
-		drawFullscreenQuad();
+		//drawFullscreenQuad();
 	}
 	
 	private void drawFullscreenQuad() {

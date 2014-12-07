@@ -6,4 +6,16 @@
 702;448
 314;450
 314;0
-DEF
+DEF start coord
+223;0
+DEF start dms
+91;50
+DEF end coord
+614;668
+DEF end dms
+91;50
+DEF enemaci
+250;30!290;30
+250;520!290;475
+640;520!675;475
+640;705!675;705
