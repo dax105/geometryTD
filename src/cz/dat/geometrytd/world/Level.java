@@ -29,12 +29,12 @@ public class Level extends TickListener {
 
 	@Override
 	protected void tick() {
-		this.rct.setRect(Mouse.getDX(), Mouse.getDY(), 20, 20);
 		this.isc = !this.parser.getPathPolygon().intersects(this.rct);
 	}
 
 	@Override
 	protected void renderTick(float ptt) {
+		this.rct.setRect(Mouse.getX() - 50, Display.getHeight() - Mouse.getY() - 50, 100, 100);
 		java.awt.Polygon p = this.parser.getPathPolygon();
 		GLUtil.drawTexture(game.getTextureManager(), this.pathTexture, 0f, 1f, 0f, 1f, 0, Display.getWidth(),
 				0, Display.getHeight());
