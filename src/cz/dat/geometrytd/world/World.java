@@ -1,6 +1,7 @@
 package cz.dat.geometrytd.world;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
@@ -16,7 +17,7 @@ public class World extends TickListener {
 	private int currentTowerSelected = 1;
 	private int towers = 4;
 	private String[] towerNames = new String[] { "Snower", "Smacker", "Shocker", "Slower" };
-	private int boxY, titleY, towerNameFontY, bigFontHeight;
+	private int boxY, titleY, towerNameFontY, bigFontHeight, towerWidthHalf;
 	
 	public World(Game game) {
 		super(game);
@@ -26,6 +27,7 @@ public class World extends TickListener {
 		this.titleY = this.boxY - (this.bigFontHeight / 4);
 		this.towerNameFontY = this.titleY + this.bigFontHeight
 				+ super.game.getFontManager().getFont().getHeight() / 2;
+		this.towerWidthHalf = (int)super.game.getTextureManager().getTexture(1).SheetSize.x / 2;
 		
 		this.changeLevel(new Level(game, 3, 
 				new LevelParser(this.getClass().getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
@@ -60,6 +62,17 @@ public class World extends TickListener {
 					this.currentTowerSelected = this.towers;
 			}
 		}
+		
+		while(Mouse.next()) {
+			if(Mouse.getEventButtonState()) {
+				if(Mouse.getEventButton() == 0) {
+					Tower t = new TowerSnower(super.game);
+					t.getRectangle().setLocation(Mouse.getX() - this.towerWidthHalf,
+							Display.getHeight() - Mouse.getY() -  this.towerWidthHalf);
+					this.currentLevel.addTower(t);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -76,6 +89,16 @@ public class World extends TickListener {
 				FontManager.BIG, Color.white);
 		super.game.getFontManager().drawString(this.towerNames[this.currentTowerSelected - 1], Display.getWidth() - 250 + 74,
 				this.towerNameFontY, Color.white);
+	}
+	
+	@Override
+	public void onRenderTick(float ptt) {
+		super.onRenderTick(ptt);
+		
+		
+		GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1, 
+				this.currentTowerSelected, Mouse.getX() - this.towerWidthHalf, 
+				Display.getHeight() - Mouse.getY() - this.towerWidthHalf);
 	}
 	
 }

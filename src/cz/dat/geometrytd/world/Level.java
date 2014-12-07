@@ -1,6 +1,8 @@
 package cz.dat.geometrytd.world;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -13,18 +15,24 @@ public class Level extends TickListener {
 
 	private LevelParser parser;
 	private int pathTexture;
-	private Point[] pts;
-	private Point[] pts2;
+	private List<Tower> towers;
+	private List<Enemy> enemies;
+	
 
 	public Level(Game game, int pathTexture, LevelParser p) {
 		super(game);
-
+		this.towers = new ArrayList<Tower>();
+		this.enemies = new ArrayList<Enemy>();
+		
 		this.parser = p;
 		this.pathTexture = pathTexture;
 
 		p.parse();
-		this.pts = p.getPoints(false);
-		this.pts2 = p.getPoints(true);
+	}
+	
+	public void addTower(Tower t) {
+		this.children.add(t);
+		this.towers.add(t);
 	}
 
 	@Override
@@ -42,17 +50,6 @@ public class Level extends TickListener {
 		GLUtil.drawRectangle(Color.red, parser.getEnd().x, parser.getEnd().x + parser.getEnd().width, 
 				parser.getEnd().y, parser.getEnd().y + parser.getEnd().height);
 		
-		for (int i = 0; i < pts.length - 1; i++) {
-			Point p1 = pts[i];
-			Point p2 = pts[i + 1];
-			GLUtil.drawLine(p1.x, p2.x, p1.y, p2.y, 2, 1f, 0.2f, 0.2f, 1f);
-		}
-		
-		for (int i = 0; i < pts2.length - 1; i++) {
-			Point p1 = pts2[i];
-			Point p2 = pts2[i + 1];
-			GLUtil.drawLine(p1.x, p2.x, p1.y, p2.y, 2, 1f, 0.2f, 0.2f, 1f);
-		}
 	}
 
 }
