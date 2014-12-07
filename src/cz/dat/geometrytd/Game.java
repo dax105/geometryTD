@@ -74,6 +74,8 @@ public class Game implements Runnable {
 
 			Display.update();
 		}
+		
+		this.textureManager.dispose();
 	}
 
 	public TextureManager getTextureManager() {
