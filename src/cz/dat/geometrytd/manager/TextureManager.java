@@ -87,7 +87,7 @@ public class TextureManager {
 
 	public void clearBind() {
 		this.lastBindID = -1;
-		this.bind(0, true);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 	}
 
 	public void dispose() {

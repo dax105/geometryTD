@@ -8,6 +8,7 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.TextureImpl;
 
 import cz.dat.geometrytd.Game;
 
@@ -24,13 +25,17 @@ public class FontManager {
 	}
 	
 	public void drawString(String text, int x, int y, int size, Color color) {
+		TextureImpl.bindNone();
+		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		this.getFont(size).drawString(x, y, text, color);
 	}
 
 	public void drawString(String text, int x, int y, Color color) {
+		TextureImpl.bindNone();
+		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		this.defaultFont.drawString(x, y, text);
+		this.defaultFont.drawString(x, y, text, color);
 	}
 	
 	public void loadDefaults() {
