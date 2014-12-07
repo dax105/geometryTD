@@ -11,6 +11,7 @@ public class Game implements Runnable {
 	public static final int WINDOW_WIDTH = 854;
 	public static final int WINDOW_HEIGHT = 480;
 	public static final String GAME_NAME = "Geometry TD";
+	public static final String RES_DIR = "/cz/dat/geometrytd/resources/";
 
 	private static final int TPS = 20;
 	private static final double TICK_TIME = 1.0D / TPS;
