@@ -29,7 +29,8 @@ public class TextureManager {
 	}
 
 	public void loadTextures() {
-
+		addTexture(1, "/all.png");
+		setSpritesheet(1, new Vector2f(64, 64));
 	}
 
 	public Texture getTexture(int id) {
@@ -125,7 +126,7 @@ public class TextureManager {
 		id = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, tWidth, tHeight,
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, tWidth, tHeight,
 				0, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buf);
 
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
