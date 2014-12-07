@@ -170,8 +170,10 @@ public class Game implements Runnable {
 
 			float ptt = (time - lastTime) / ((float) Game.TICK_TIME * Game.MAGIC_CONSTANT);
 
-			this.renderTick(ptt);
-			fps++;
+			if (Display.isActive()) {
+				this.renderTick(ptt);
+				fps++;
+			}
 
 			time = System.nanoTime();
 			while (time - lastTime >= Game.TICK_TIME * Game.MAGIC_CONSTANT) {
