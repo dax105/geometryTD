@@ -10,9 +10,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.glu.GLU;
 
-
-import org.newdawn.slick.Color;
-
 import cz.dat.geometrytd.gl.FramebufferObject;
 import cz.dat.geometrytd.gl.ShaderProgram;
 import cz.dat.geometrytd.gl.Texture2D;
@@ -67,10 +64,7 @@ public class Game implements Runnable {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		this.world.onRenderTick(ptt);
-		
-		this.textureManager.clearBind();
-		
-		//fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.white);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		/*
 		 * GLOW
@@ -97,7 +91,7 @@ public class Game implements Runnable {
 		
 		GL11.glColor4f(1, 1, 1, 0.5f);
 		bindTex(fboTextures[1].getId());
-		//drawFullscreenQuad();
+		drawFullscreenQuad();
 	}
 	
 	private void drawFullscreenQuad() {

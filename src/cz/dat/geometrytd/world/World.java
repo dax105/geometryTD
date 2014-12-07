@@ -16,14 +16,16 @@ public class World extends TickListener {
 	private int currentTowerSelected = 1;
 	private int towers = 4;
 	private String[] towerNames = new String[] { "Snower", "Smacker", "Shocker", "Slower" };
-	
-	private int towerNameFontX, towerNameFontY;
+	private int boxY, titleY, towerNameFontY, bigFontHeight;
 	
 	public World(Game game) {
 		super(game);
-		this.towerNameFontX = Display.getWidth() - 250 + 74;
-		this.towerNameFontY = super.game.getFontManager().getFont(FontManager.BIG).getHeight() + 24;
 		
+		this.bigFontHeight = super.game.getFontManager().getFont(FontManager.BIG).getHeight();
+		this.boxY = 20;
+		this.titleY = this.boxY - (this.bigFontHeight / 4);
+		this.towerNameFontY = this.titleY + this.bigFontHeight
+				+ super.game.getFontManager().getFont().getHeight() / 2;
 		
 		this.changeLevel(new Level(game, 3, 
 				new LevelParser(this.getClass().getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
@@ -66,12 +68,13 @@ public class World extends TickListener {
 				0, Display.getHeight());
 		
 		GLUtil.drawRectangle(0.5f, 0.5f, 0.5f, 0.75f, Display.getWidth() - 260, Display.getWidth() - 20, 
-				20, 300);
+				this.boxY, 300);
 		GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1, this.currentTowerSelected, Display.getWidth() - 250,
-				super.game.getFontManager().getFont(FontManager.BIG).getHeight() + 10);
+				this.titleY + this.bigFontHeight);
 		
-		super.game.getFontManager().drawString("Current tower", Display.getWidth() - 250, 10, FontManager.BIG, Color.white);
-		super.game.getFontManager().drawString(this.towerNames[this.currentTowerSelected - 1], this.towerNameFontX,
+		super.game.getFontManager().drawString("Current tower", Display.getWidth() - 250, this.titleY,
+				FontManager.BIG, Color.white);
+		super.game.getFontManager().drawString(this.towerNames[this.currentTowerSelected - 1], Display.getWidth() - 250 + 74,
 				this.towerNameFontY, Color.white);
 	}
 	
