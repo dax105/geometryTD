@@ -8,6 +8,8 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
+import cz.dat.geometrytd.manager.TextureManager;
+
 public class Game implements Runnable {
 
 	public static final int WINDOW_WIDTH = 854;
@@ -19,6 +21,8 @@ public class Game implements Runnable {
 	private static final int TPS = 20;
 	private static final double TICK_TIME = 1.0D / TPS;
 	private static final int MAGIC_CONSTANT = 1000000000;
+	
+	private TextureManager textureManager;
 
 	private void tick(int ticks) {
 
@@ -31,6 +35,8 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 		Game.initDisplay();
+		
+		this.textureManager = new TextureManager();
 
 		long time = System.nanoTime();
 		long lastTime = time;
@@ -70,6 +76,10 @@ public class Game implements Runnable {
 		}
 	}
 
+	public TextureManager getTextureManager() {
+		return this.textureManager;
+	}
+	
 	public static void initDisplay() {
 		try {
 			DisplayMode d = new DisplayMode(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
