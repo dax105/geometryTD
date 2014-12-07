@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.glu.GLU;
+
+
 import org.newdawn.slick.Color;
 
 import cz.dat.geometrytd.gl.FramebufferObject;
@@ -17,6 +19,7 @@ import cz.dat.geometrytd.gl.ShaderProgram;
 import cz.dat.geometrytd.gl.Texture2D;
 import cz.dat.geometrytd.manager.FontManager;
 import cz.dat.geometrytd.manager.TextureManager;
+import cz.dat.geometrytd.world.World;
 
 public class Game implements Runnable {
 
@@ -33,13 +36,15 @@ public class Game implements Runnable {
 	private TextureManager textureManager;
 	private FontManager fontManager;
 	
+	private World world;
+	
 	private FramebufferObject[] frameBuffers = new FramebufferObject[4];
 	private Texture2D[] fboTextures = new Texture2D[4];
 	
 	private ShaderProgram verticalBlur;
 
 	private void tick(int ticks) {
-
+		this.world.onTick();
 	}
 
 	private void renderTick(float ptt) {
@@ -62,30 +67,11 @@ public class Game implements Runnable {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		int tex = 1;
-		
-		float x0 = textureManager.getTexture(1).getX1(tex);
-		float x1 = textureManager.getTexture(1).getX2(tex);
-		float y0 = 0;
-		float y1 = 1;
-		
-		this.textureManager.bind(tex);
-		
-		GL11.glColor3f(1, 0, 1);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(x0, y0);
-		GL11.glVertex2f(0, 0);
-		GL11.glTexCoord2f(x1, y0);
-		GL11.glVertex2f(256, 0);
-		GL11.glTexCoord2f(x1, y1);
-		GL11.glVertex2f(256, 256);
-		GL11.glTexCoord2f(x0, y1);
-		GL11.glVertex2f(0, 256);
-		GL11.glEnd();
+		this.world.onRenderTick(ptt);
 		
 		this.textureManager.clearBind();
 		
-		fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.blue);
+		fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.white);
 		
 		/*
 		 * GLOW
@@ -148,6 +134,8 @@ public class Game implements Runnable {
 			frameBuffers[i] = f;
 			fboTextures[i] = t;
 		}
+		
+		this.world = new World(this);
 
 		while (!Display.isCloseRequested()) {
 			int e = GL11.glGetError();
@@ -179,7 +167,6 @@ public class Game implements Runnable {
 		}
 		
 		this.textureManager.dispose();
-		this.fontManager.dispose();
 	}
 
 	public void bindTex(int id) {

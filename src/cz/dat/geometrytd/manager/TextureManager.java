@@ -20,7 +20,7 @@ import de.matthiasmann.twl.utils.PNGDecoder.Format;
 
 public class TextureManager {
 	private Map<Integer, Texture> textures;
-	private String texturesDir = Game.RES_DIR + "textures";
+	private String texturesDir = Game.RES_DIR + "textures/";
 	private int lastBindID = -1;
 
 	public TextureManager() {
@@ -29,8 +29,10 @@ public class TextureManager {
 	}
 
 	public void loadTextures() {
-		addTexture(1, "/all.png");
-		setSpritesheet(1, new Vector2f(64, 64));
+		this.addTexture(1, "all.png");
+		this.setSpritesheet(1, new Vector2f(64, 64));
+		
+		this.addTexture(2, "back.png");
 	}
 
 	public Texture getTexture(int id) {
@@ -127,7 +129,7 @@ public class TextureManager {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, tWidth, tHeight,
-				0, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buf);
+				0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
 
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
 				GL11.GL_LINEAR);

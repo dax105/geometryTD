@@ -72,10 +72,4 @@ public class FontManager {
 	private TrueTypeFont loadFont(Font font, boolean antiAlias) {
 		return new TrueTypeFont(font, antiAlias);
 	}
-	
-	public void dispose() {
-		for(TrueTypeFont f : this.fonts.values()) {
-			
-		}
-	}
 }
