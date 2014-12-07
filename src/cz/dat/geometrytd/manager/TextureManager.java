@@ -87,6 +87,14 @@ public class TextureManager {
 		this.bind(0, true);
 	}
 	
+	public void dispose() {
+		this.clearBind();
+		
+		for(Texture t : this.textures.values()) {
+			GL11.glDeleteTextures(t.TextureID);
+		}
+	}
+	
 	private Texture loadTexture(File file) throws IOException,
 			IllegalArgumentException {
 		if (!file.exists())
