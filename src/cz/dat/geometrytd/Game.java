@@ -5,9 +5,16 @@ import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.Color;
+
+import cz.dat.geometrytd.gl.FramebufferObject;
+import cz.dat.geometrytd.gl.ShaderProgram;
+import cz.dat.geometrytd.gl.Texture2D;
 import cz.dat.geometrytd.manager.FontManager;
 import cz.dat.geometrytd.manager.TextureManager;
 
@@ -25,13 +32,24 @@ public class Game implements Runnable {
 	
 	private TextureManager textureManager;
 	private FontManager fontManager;
+	
+	private FramebufferObject[] frameBuffers = new FramebufferObject[4];
+	private Texture2D[] fboTextures = new Texture2D[4];
+	
+	private ShaderProgram verticalBlur;
 
 	private void tick(int ticks) {
 
 	}
 
 	private void renderTick(float ptt) {
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+		/*
+		 * DRAW BASE
+		 */
+		
+		frameBuffers[0].checkBind();
+		
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		GL11.glOrtho(0, Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT, 0, -1, 1);
@@ -67,7 +85,43 @@ public class Game implements Runnable {
 		
 		this.textureManager.clearBind();
 		
-		fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.white);
+		fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.blue);
+		
+		/*
+		 * GLOW
+		 */
+		
+		frameBuffers[1].checkBind();
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		bindTex(fboTextures[0].getId());
+		GL20.glUseProgram(verticalBlur.getProgramID());
+		drawFullscreenQuad();
+		
+		/*
+		 * COMPOSE
+		 */
+		
+		FramebufferObject.bindNone();
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		
+		GL20.glUseProgram(0);
+		
+		bindTex(fboTextures[1].getId());
+		drawFullscreenQuad();
+	}
+	
+	private void drawFullscreenQuad() {
+		GL11.glColor3f(1, 1, 1);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 1);
+		GL11.glVertex2f(0, 0);
+		GL11.glTexCoord2f(1, 1);
+		GL11.glVertex2f(Game.WINDOW_WIDTH, 0);
+		GL11.glTexCoord2f(1, 0);
+		GL11.glVertex2f(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+		GL11.glTexCoord2f(0, 0);
+		GL11.glVertex2f(0, Game.WINDOW_HEIGHT);
+		GL11.glEnd();
 	}
 
 	@Override
@@ -84,6 +138,16 @@ public class Game implements Runnable {
 		int fps = 0;
 		int ticks = 0;
 		int lastTicks = 0;
+		
+		this.verticalBlur = new ShaderProgram("cz/dat/geometrytd/gl/shaders/glow");
+		
+		for (int i = 0; i < this.frameBuffers.length; i++) {
+			FramebufferObject f = new FramebufferObject(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+			Texture2D t = new Texture2D(f, GL11.GL_RGB8, GL11.GL_RGB, GL11.GL_INT);
+			f.attachTexture(t, EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT);
+			frameBuffers[i] = f;
+			fboTextures[i] = t;
+		}
 
 		while (!Display.isCloseRequested()) {
 			int e = GL11.glGetError();
@@ -118,6 +182,11 @@ public class Game implements Runnable {
 		this.fontManager.dispose();
 	}
 
+	public void bindTex(int id) {
+		this.textureManager.clearBind();
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+	}
+	
 	public TextureManager getTextureManager() {
 		return this.textureManager;
 	}
