@@ -7,9 +7,10 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.Color;
+
 import cz.dat.geometrytd.manager.FontManager;
 import cz.dat.geometrytd.manager.TextureManager;
+import cz.dat.geometrytd.world.World;
 
 public class Game implements Runnable {
 
@@ -25,9 +26,11 @@ public class Game implements Runnable {
 	
 	private TextureManager textureManager;
 	private FontManager fontManager;
+	
+	private World world;
 
 	private void tick(int ticks) {
-
+		this.world.onTick();
 	}
 
 	private void renderTick(float ptt) {
@@ -46,28 +49,8 @@ public class Game implements Runnable {
 		
 		int tex = 1;
 		
-		float x0 = textureManager.getTexture(1).getX1(tex);
-		float x1 = textureManager.getTexture(1).getX2(tex);
-		float y0 = 0;
-		float y1 = 1;
-		
 		this.textureManager.bind(tex);
-		
-		GL11.glColor3f(1, 0, 1);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(x0, y0);
-		GL11.glVertex2f(0, 0);
-		GL11.glTexCoord2f(x1, y0);
-		GL11.glVertex2f(256, 0);
-		GL11.glTexCoord2f(x1, y1);
-		GL11.glVertex2f(256, 256);
-		GL11.glTexCoord2f(x0, y1);
-		GL11.glVertex2f(0, 256);
-		GL11.glEnd();
-		
-		this.textureManager.clearBind();
-		
-		fontManager.drawString("helhjghjhgjhgjghjhglo", 200, 200, Color.white);
+		this.world.onRenderTick(ptt);
 	}
 
 	@Override
@@ -84,6 +67,8 @@ public class Game implements Runnable {
 		int fps = 0;
 		int ticks = 0;
 		int lastTicks = 0;
+		
+		this.world = new World(this);
 
 		while (!Display.isCloseRequested()) {
 			int e = GL11.glGetError();
@@ -115,7 +100,6 @@ public class Game implements Runnable {
 		}
 		
 		this.textureManager.dispose();
-		this.fontManager.dispose();
 	}
 
 	public TextureManager getTextureManager() {
