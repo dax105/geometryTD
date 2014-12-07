@@ -7,7 +7,9 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.newdawn.slick.Color;
 
+import cz.dat.geometrytd.gl.Texture2D;
 import cz.dat.geometrytd.manager.FontManager;
 import cz.dat.geometrytd.manager.TextureManager;
 
@@ -34,11 +36,11 @@ public class Game implements Runnable {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, Game.WINDOW_WIDTH, 0, Game.WINDOW_HEIGHT, -1, 1);
+		GL11.glOrtho(0, Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT, 0, -1, 1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glEnable(GL11.GL_BLEND);
@@ -50,6 +52,8 @@ public class Game implements Runnable {
 		float x1 = textureManager.getTexture(1).getX2(tex);
 		float y0 = 0;
 		float y1 = 1;
+		
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureManager.getTexture(1).TextureID);
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glColor3f(1, 0, 1);
@@ -63,6 +67,9 @@ public class Game implements Runnable {
 		GL11.glTexCoord2f(x0, y1);
 		GL11.glVertex2f(0, 256);
 		GL11.glEnd();
+		
+		Texture2D.bindNone();
+		fontManager.drawString("hello", 200, 200, Color.blue);
 		
 
 		

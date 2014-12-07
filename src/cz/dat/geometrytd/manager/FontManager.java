@@ -24,19 +24,13 @@ public class FontManager {
 	}
 	
 	public void drawString(String text, int x, int y, int size, Color color) {
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		this.getFont(size).drawString(x, y, text, color);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
 
 	public void drawString(String text, int x, int y, Color color) {
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		this.defaultFont.drawString(x, y, text);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
 	
 	public void loadDefaults() {
