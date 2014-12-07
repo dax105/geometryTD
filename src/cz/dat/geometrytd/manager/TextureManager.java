@@ -33,6 +33,7 @@ public class TextureManager {
 		this.setSpritesheet(1, new Vector2f(64, 64));
 		
 		this.addTexture(2, "back.png");
+		this.addTexture(3, "l1.png");
 	}
 
 	public Texture getTexture(int id) {
