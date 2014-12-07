@@ -70,11 +70,13 @@ public class TextureManager {
 	}
 
 	public void bind(int id, boolean force) {
-		int tID = this.textures.get(id).TextureID;
-		if ((tID != this.lastBindID) || force) {
-			this.lastBindID = tID;
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, tID);
+		if (this.textures.containsKey(id)) {
+			int tID = this.textures.get(id).TextureID;
+			if ((tID != this.lastBindID) || force) {
+				this.lastBindID = tID;
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, tID);
+			}
 		}
 	}
 
@@ -86,15 +88,15 @@ public class TextureManager {
 		this.lastBindID = -1;
 		this.bind(0, true);
 	}
-	
+
 	public void dispose() {
 		this.clearBind();
-		
-		for(Texture t : this.textures.values()) {
+
+		for (Texture t : this.textures.values()) {
 			GL11.glDeleteTextures(t.TextureID);
 		}
 	}
-	
+
 	private Texture loadTexture(File file) throws IOException,
 			IllegalArgumentException {
 		if (!file.exists())
