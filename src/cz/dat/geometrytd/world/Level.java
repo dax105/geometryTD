@@ -1,6 +1,11 @@
 package cz.dat.geometrytd.world;
 
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.Color;
 
 import cz.dat.geometrytd.Game;
 import cz.dat.geometrytd.TickListener;
@@ -10,19 +15,22 @@ public class Level extends TickListener {
 
 	private int pathTexture;
 	private LevelParser parser;
+	private Rectangle2D rct;
+	private boolean isc = false;
 	
 	public Level(Game game, int pathTexture, LevelParser p) {
 		super(game);
 		
 		this.pathTexture = pathTexture;
 		this.parser = p;
-		
+		this.rct = new Rectangle(0, 0, 100, 100);
 		p.parse();
 	}
 
 	@Override
 	protected void tick() {
-
+		this.rct.setRect(Mouse.getDX(), Mouse.getDY(), 20, 20);
+		this.isc = !this.parser.getPathPolygon().intersects(this.rct);
 	}
 
 	@Override
@@ -35,6 +43,10 @@ public class Level extends TickListener {
 			GLUtil.drawLine(p.xpoints[i], p.xpoints[i + 1],
 					p.ypoints[i], p.ypoints[i + 1], 2, 1f, 0.2f, 0.2f, 1f);
 		}
+		
+		GLUtil.drawRectangle(this.isc ? Color.green : Color.red, (float)this.rct.getX(),
+				(float)this.rct.getX() + (float)this.rct.getWidth(), 
+				(float)this.rct.getY(), (float)this.rct.getY() + (float)this.rct.getHeight());
 	}
 	
 }
