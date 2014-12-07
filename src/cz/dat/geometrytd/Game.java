@@ -46,10 +46,7 @@ public class Game implements Runnable {
 		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		
-		int tex = 1;
-		
-		this.textureManager.bind(tex);
+
 		this.world.onRenderTick(ptt);
 	}
 

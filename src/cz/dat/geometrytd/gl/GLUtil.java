@@ -14,6 +14,8 @@ public class GLUtil {
 			float x1, float x2, float y1, float y2) {
 		t.bind(texture);
 		GL11.glColor4f(1f, 1f, 1f, 1f);
+		
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(textureX1, textureY1);
 		GL11.glVertex2f(x1, y1);
@@ -54,6 +56,7 @@ public class GLUtil {
 		GL11.glColor4f(r, g, b, a);
 		GL11.glLineWidth(thickness);
 
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glBegin(GL11.GL_LINES);
 
 		GL11.glVertex2f(x1, y1);
