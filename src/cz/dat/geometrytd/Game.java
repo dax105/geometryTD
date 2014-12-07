@@ -1,5 +1,7 @@
 package cz.dat.geometrytd;
 
+import java.util.logging.Logger;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -12,7 +14,8 @@ public class Game implements Runnable {
 	public static final int WINDOW_HEIGHT = 480;
 	public static final String GAME_NAME = "Geometry TD";
 	public static final String RES_DIR = "/cz/dat/geometrytd/resources/";
-
+	public static final Logger log = Logger.getLogger("GeometryTD_log");
+	
 	private static final int TPS = 20;
 	private static final double TICK_TIME = 1.0D / TPS;
 	private static final int MAGIC_CONSTANT = 1000000000;
