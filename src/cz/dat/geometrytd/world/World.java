@@ -70,7 +70,6 @@ public class World extends TickListener {
 
 	@Override
 	protected void tick() {
-		this.mousePoint.setLocation(Mouse.getX(), Display.getHeight() - Mouse.getY());
 		this.overBox = this.box.contains(this.mousePoint);
 		
 		while (Keyboard.next()) {
@@ -110,12 +109,12 @@ public class World extends TickListener {
 					}
 				}
 			}
+		}
+		
+		fogOffset += 0.001f;
 
-			fogOffset += 0.001f;
-
-			while (fogOffset > 2f) {
-				fogOffset -= 2f;
-			}
+		while (fogOffset > 2f) {
+			fogOffset -= 2f;
 		}
 	}
 	
@@ -163,6 +162,7 @@ public class World extends TickListener {
 	@Override
 	public void onRenderTick(float ptt) {
 		super.onRenderTick(ptt);
+		this.mousePoint.setLocation(Mouse.getX(), Display.getHeight() - Mouse.getY());
 
 		if (!this.overBox) {
 			GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
