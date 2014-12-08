@@ -3,6 +3,7 @@ package cz.dat.geometrytd.world;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +22,8 @@ public class Level extends TickListener {
 	private List<Enemy> enemies;
 	
 	private int counter = 0;
+	
+	public int lives = 10;
 	
 	private Rectangle placingRectangle = new Rectangle(0, 0, 64, 64);
 
@@ -46,7 +49,7 @@ public class Level extends TickListener {
 				toSpawn.add(new Enemy(this.game, this.parser.getPoints(i % 2 == 0), wave));
 			}
 		} else {
-			toSpawn.add(new Enemy(this.game, this.parser.getPoints(rand.nextInt(2) == 0), wave*12));
+			toSpawn.add(new Enemy(this.game, this.parser.getPoints(rand.nextInt(2) == 0), wave*25));
 		}
 	}
 	
@@ -84,8 +87,19 @@ public class Level extends TickListener {
 			this.enemies.add(e);
 		}
 		
-		for (Enemy e : enemies) {
+		Iterator<Enemy> it = enemies.iterator();
+		while (it.hasNext()) {
+			Enemy e = it.next();
+			
 			e.onTick();
+			
+			if (e.dead) {
+				if (e.attacked) {
+					lives--;
+					//TODO END GAME WHEN LIVES <= 0
+				}
+				it.remove();
+			}
 		}
 	}
 
