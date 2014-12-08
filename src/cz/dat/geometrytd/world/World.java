@@ -32,7 +32,7 @@ public class World extends TickListener {
 	public static final int TOWER_WIDTH_HALF = 32;
 
 	private int boxY, titleY, towerNameFontY, bigFontHeight, towerWidthHalf,
-			selectedTowerY, scoreFontY, livesFontY;
+			selectedTowerY, nextWaveFontY, scoreFontY, livesFontY, waveFontY;
 	private boolean overBox = false;
 	private Point mousePoint = new Point();
 	private Point newTowerPoint = new Point();
@@ -40,6 +40,10 @@ public class World extends TickListener {
 
 	private int score = 3500;
 	private TowerInfo infoPanel;
+	
+	private int lives = 5;
+	
+	private int wave = 0;
 
 	private List<Button> buttons = new ArrayList<Button>();
 
@@ -58,9 +62,13 @@ public class World extends TickListener {
 		this.towerWidthHalf = (int) super.game.getTextureManager()
 				.getTexture(1).SheetSize.x / 2;
 		this.selectedTowerY = this.titleY + this.bigFontHeight;
-		this.scoreFontY = this.towerNameFontY + World.TOWER_WIDTH_HALF + 10;
-		this.livesFontY = this.scoreFontY
+		this.nextWaveFontY = this.towerNameFontY + World.TOWER_WIDTH_HALF + 10;
+		this.scoreFontY = this.nextWaveFontY
 				+ game.getFontManager().getFont().getHeight();
+		this.livesFontY = this.scoreFontY
+				+ game.getFontManager().getFont().getHeight()-12;
+		this.waveFontY = this.livesFontY
+				+ game.getFontManager().getFont().getHeight()-12;
 
 		this.changeLevel(new Level(game, 3, new LevelParser(this.getClass()
 				.getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
@@ -93,8 +101,27 @@ public class World extends TickListener {
 		this.children.add(this.currentLevel);
 	}
 
+	int tts = 0;
+	int next = 20;
+	
+	private void nextWave() {
+		wave++;
+		currentLevel.wave(wave);
+	}
+	
 	@Override
 	protected void tick() {
+		tts++;
+		if (tts == 20) {
+			tts = 0;
+			next--;		
+		}
+		
+		if (next <= 0) {
+			nextWave();
+			next = 20;
+		}
+
 		this.overBox = this.gridBox.contains(this.mousePoint)
 				&& this.currentLevel.canPlace(this.newTowerPoint);
 
@@ -105,6 +132,10 @@ public class World extends TickListener {
 
 					if (k == Keyboard.KEY_LEFT) {
 						this.currentTowerSelected--;
+					}
+					
+					if (k == Keyboard.KEY_SPACE) {
+						this.next = 0;
 					}
 
 					if (k == Keyboard.KEY_RIGHT) {
@@ -225,6 +256,11 @@ public class World extends TickListener {
 				this.box.x + 80, this.towerNameFontY, Color.white);
 		super.game.getFontManager().drawString("Score: " + this.score,
 				this.box.x + 5, this.scoreFontY, Color.white);
+		super.game.getFontManager().drawString("Lives: " + this.lives,
+				this.box.x + 5, this.livesFontY, Color.white);
+		super.game.getFontManager().drawString("Wave: " + this.wave,
+				this.box.x + 5, this.waveFontY, Color.white);
+		super.game.getFontManager().drawString("Next wave in: " + next + "s", this.box.x + 5, this.nextWaveFontY-2, FontManager.BIG, Color.white);
 
 	}
 

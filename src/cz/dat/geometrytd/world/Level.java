@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.opengl.Display;
 
@@ -19,6 +20,8 @@ public class Level extends TickListener {
 	private List<Tower> towers;
 	private List<Enemy> enemies;
 	
+	private int counter = 0;
+	
 	private Rectangle placingRectangle = new Rectangle(0, 0, 64, 64);
 
 	public Level(Game game, int pathTexture, LevelParser p) {
@@ -31,8 +34,20 @@ public class Level extends TickListener {
 		this.pathTexture = pathTexture;
 
 		p.parse();
-		
-		enemies.add(new Enemy(game, p.getPoints(false), 10));
+	}
+	
+	private List<Enemy> toSpawn = new ArrayList<Enemy>();
+	
+	Random rand = new Random();
+	
+	public void wave(int wave) {
+		if (wave % 10 != 0) {		
+			for (int i = 0; i < 20; i++) {
+				toSpawn.add(new Enemy(this.game, this.parser.getPoints(i % 2 == 0), wave));
+			}
+		} else {
+			toSpawn.add(new Enemy(this.game, this.parser.getPoints(rand.nextInt(2) == 0), wave*12));
+		}
 	}
 	
 	public boolean canPlace(Point p) {
@@ -61,6 +76,14 @@ public class Level extends TickListener {
 	
 	@Override
 	protected void tick() {
+		counter++;
+		
+		if (counter >= 5 && toSpawn.size() > 0) {
+			counter = 0;
+			Enemy e = toSpawn.remove(0);
+			this.enemies.add(e);
+		}
+		
 		for (Enemy e : enemies) {
 			e.onTick();
 		}
