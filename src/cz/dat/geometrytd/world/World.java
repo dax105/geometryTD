@@ -60,10 +60,10 @@ public class World extends TickListener {
 						super.r.x+super.r.width, super.r.y, super.r.y+super.r.height);
 				}
 				
-				GLUtil.drawAtlasTexture(game.getTextureManager(), 1, 5, super.r.x,
+				GLUtil.drawAtlasTexture(w.getGame().getTextureManager(), 1, 5, super.r.x,
 						super.r.x+super.r.width, super.r.y, super.r.y+super.r.height);
 				
-				GLUtil.drawAtlasTexture(game.getTextureManager(), 1, 1, super.r.x + border,
+				GLUtil.drawAtlasTexture(w.getGame().getTextureManager(), 1, 1, super.r.x + border,
 						super.r.x+super.r.width - border, super.r.y + border, super.r.y+super.r.height - border);
 			}
 		});
@@ -161,9 +161,9 @@ public class World extends TickListener {
 				Display.getHeight() - Mouse.getY() - this.towerWidthHalf);
 	}
 	
-	abstract class Button {
+	abstract class Button{
 		private Rectangle r;
-		private World w;
+		protected World w;
 		
 		private boolean onDown = false;
 		

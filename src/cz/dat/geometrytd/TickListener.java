@@ -33,6 +33,10 @@ public abstract class TickListener {
 		}
 	}
 	
+	public Game getGame() {
+		return this.game;
+	}
+	
 	protected abstract void tick();
 	protected abstract void renderTick(float ptt);
 }
