@@ -4,10 +4,11 @@ import cz.dat.geometrytd.Game;
 
 public class TowerIntel extends Tower {
 
-	public TowerIntel(Game game) {
-		super(game, 1);
-		this.range = 20;
+	public TowerIntel(Game game, Level l) {
+		super(game, 1, l);
+		this.range = 130;
 		this.damage = 5;
+		this.cooldown = 20;
 		this.level = 1;
 	}
 

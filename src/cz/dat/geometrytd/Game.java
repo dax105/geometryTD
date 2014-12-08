@@ -36,6 +36,10 @@ public class Game implements Runnable {
 	
 	private World world;
 	
+	public World getWorld() {
+		return world;
+	}
+
 	private FramebufferObject[] frameBuffers = new FramebufferObject[2];
 	private Texture2D[] fboTextures = new Texture2D[2];
 	

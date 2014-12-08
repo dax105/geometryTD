@@ -4,8 +4,8 @@ import cz.dat.geometrytd.Game;
 
 public class TowerNVidia extends Tower {
 
-	public TowerNVidia(Game game) {
-		super(game, 3);
+	public TowerNVidia(Game game, Level l) {
+		super(game, 3, l);
 	}
 
 	@Override
