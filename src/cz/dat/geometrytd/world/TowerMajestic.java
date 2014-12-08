@@ -17,18 +17,21 @@ public class TowerMajestic extends Tower {
 	@Override
 	public void setLevel(int level) {
 		if (this.canUpgrade()) {
-			this.tID = 3 + (level == 2 ? 5 : 2);
-			
 			switch(level) {
 			case 2:
 				this.range = r2;
 				this.damage = d2;
+				this.tID = 8;
 				break;
 			case 3:
 				this.range = r3;
 				this.damage = d3;
+				this.tID = 5;
+				this.game.getSoundManager().playMusic("gaben", true);
 				break;
 			}
+			
+			this.level = level;
 		}
 	}
 

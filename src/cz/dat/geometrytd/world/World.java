@@ -39,7 +39,7 @@ public class World extends TickListener {
 	private Point newTowerPoint = new Point();
 	private float fogOffset = 0;
 
-	public int score = 3500;
+	public int score = 30000;
 	private TowerInfo infoPanel;
 	public int wave = 0;
 
