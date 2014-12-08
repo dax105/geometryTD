@@ -4,8 +4,8 @@ import cz.dat.geometrytd.Game;
 
 public class TowerAMD extends Tower {
 
-	public TowerAMD(Game game) {
-		super(game, 2);
+	public TowerAMD(Game game, Level l) {
+		super(game, 2, l);
 	}
 
 	@Override

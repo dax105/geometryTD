@@ -1,5 +1,6 @@
 package cz.dat.geometrytd.world;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.lwjgl.opengl.GL11;
@@ -15,11 +16,15 @@ public abstract class Tower extends TickListener {
 	protected Rectangle rec;
 	protected int level;
 	protected int damage;
+	protected Level l;
 	
 	
-	public Tower(Game game, int textureID) {
+	public Tower(Game game, int textureID, Level l) {
 		super(game);
+		this.l = l;
 		this.level = 1;
+		this.range = 200;
+		this.damage = 1;
 		this.tID = textureID;
 		this.rec = new Rectangle();
 		this.rec.setSize((int)this.game.getTextureManager().getTexture(1).SheetSize.x,
@@ -53,6 +58,31 @@ public abstract class Tower extends TickListener {
 
 	@Override
 	protected void tick() {
+		
+		float ld = 0;
+		Enemy closest = null;
+		
+		Point pos = new Point(this.rec.x+World.TOWER_WIDTH_HALF, this.rec.y+World.TOWER_WIDTH_HALF);
+		
+		for (Enemy e : l.getEnemies()) {
+			
+			float d = (float) new Point((int)e.x, (int)e.y).distance(pos);
+			
+			if (d <= this.range) {
+				System.out.println(d);
+				if (closest == null) {
+					closest = e;
+					ld = d;
+				} else if (d < ld) {
+					closest = e;
+					ld = d;
+				}
+			}
+		}
+		
+		if (closest != null) {
+			closest.life -= this.damage;
+		}
 		
 	}
 

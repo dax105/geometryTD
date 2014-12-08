@@ -207,13 +207,13 @@ public class World extends TickListener {
 	private Tower generateTower(int num) {
 		switch (num) {
 		case 1:
-			return new TowerIntel(this.game);
+			return new TowerIntel(this.game, this.currentLevel);
 		case 2:
-			return new TowerAMD(this.game);
+			return new TowerAMD(this.game, this.currentLevel);
 		case 3:
-			return new TowerNVidia(this.game);
+			return new TowerNVidia(this.game, this.currentLevel);
 		case 4:
-			return new TowerMajestic(this.game);
+			return new TowerMajestic(this.game, this.currentLevel);
 		}
 
 		return null;

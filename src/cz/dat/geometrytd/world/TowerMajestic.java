@@ -4,8 +4,8 @@ import cz.dat.geometrytd.Game;
 
 public class TowerMajestic extends Tower {
 
-	public TowerMajestic(Game game) {
-		super(game, 4);
+	public TowerMajestic(Game game, Level l) {
+		super(game, 4, l);
 	}
 	
 

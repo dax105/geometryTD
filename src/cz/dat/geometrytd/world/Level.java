@@ -21,6 +21,10 @@ public class Level extends TickListener {
 	private List<Tower> towers;
 	private List<Enemy> enemies;
 
+	public List<Enemy> getEnemies() {
+		return enemies;
+	}
+
 	private int counter = 0;
 	private boolean isDead = false;
 	public int lives = 10;
