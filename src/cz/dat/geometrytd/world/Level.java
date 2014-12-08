@@ -31,6 +31,8 @@ public class Level extends TickListener {
 		this.pathTexture = pathTexture;
 
 		p.parse();
+		
+		enemies.add(new Enemy(game, p.getPoints(false), 10));
 	}
 	
 	public boolean canPlace(Point p) {
@@ -59,13 +61,19 @@ public class Level extends TickListener {
 	
 	@Override
 	protected void tick() {
-
+		for (Enemy e : enemies) {
+			e.onTick();
+		}
 	}
 
 	@Override
 	protected void renderTick(float ptt) {
 		GLUtil.drawTexture(game.getTextureManager(), this.pathTexture, 0f, 1f, 0f, 1f, 0, Display.getWidth(),
 				0, Display.getHeight());
+		
+		for (Enemy e : enemies) {
+			e.onRenderTick(ptt);
+		}
 		
 	}
 
