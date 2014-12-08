@@ -27,10 +27,12 @@ public class World extends TickListener {
 	private String[] towerNames = new String[] { "Snower", "Smacker",
 			"Shocker", "Slower" };
 	private Rectangle box;
+	private Rectangle gridBox;
 	private int boxY, titleY, towerNameFontY, bigFontHeight, towerWidthHalf,
 			selectedTowerY;
 	private boolean overBox = false;
 	private Point mousePoint = new Point();
+	private Point newTowerPoint = new Point();
 	private float fogOffset = 0;
 
 	private List<Button> buttons = new ArrayList<Button>();
@@ -42,6 +44,7 @@ public class World extends TickListener {
 				.getFont(FontManager.BIG).getHeight();
 		this.boxY = 20;
 		this.box = new Rectangle(Display.getWidth() - 260, this.boxY, 240, 500);
+		this.gridBox = new Rectangle(0, 0, this.box.x - 10, Display.getHeight());
 		this.titleY = this.boxY - (this.bigFontHeight / 4);
 		this.towerNameFontY = this.titleY + this.bigFontHeight
 				+ super.game.getFontManager().getFont().getHeight() / 2;
@@ -70,8 +73,8 @@ public class World extends TickListener {
 
 	@Override
 	protected void tick() {
-		this.overBox = this.box.contains(this.mousePoint);
-		
+		this.overBox = this.gridBox.contains(this.mousePoint) && this.currentLevel.canPlace(this.newTowerPoint);
+
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
 				int k = Keyboard.getEventKey();
@@ -96,10 +99,10 @@ public class World extends TickListener {
 			if (Mouse.getEventButtonState()) {
 				if (Mouse.getEventButton() == 0) {
 
-					if (!this.overBox) {
+					if (this.overBox) {
 						this.addTower();
 					}
-					
+
 					for (Button b : buttons) {
 						if (Mouse.getEventButtonState()) {
 							b.onDown(this.mousePoint);
@@ -110,7 +113,7 @@ public class World extends TickListener {
 				}
 			}
 		}
-		
+
 		fogOffset += 0.001f;
 
 		while (fogOffset > 2f) {
@@ -118,13 +121,22 @@ public class World extends TickListener {
 		}
 	}
 	
+    private int getFold(int fold)
+    {
+        int ret = 64;
+        while (ret < fold)
+        {
+            ret *= 2;
+        }
+
+        return ret;
+    }
+
 	private void addTower() {
 		Tower t = new TowerSnower(super.game);
-		t.getRectangle().setLocation(
-				Mouse.getX() - this.towerWidthHalf,
-				Display.getHeight() - Mouse.getY()
-						- this.towerWidthHalf);
-		 this.currentLevel.addTower(t);
+		t.getRectangle().setLocation(this.getFold(this.newTowerPoint.x),
+				this.getFold(this.newTowerPoint.y));
+		this.currentLevel.addTower(t);
 	}
 
 	@Override
@@ -149,6 +161,14 @@ public class World extends TickListener {
 			b.render();
 		}
 
+		for(int i = 0; i < this.gridBox.width; i += 64) {
+			GLUtil.drawLine(i, i, 0, this.gridBox.height, 2, 0.5f, 0.5f, 0.5f, 0.5f);
+		}
+		
+		for(int i = 0; i < this.gridBox.height; i += 64) {
+			GLUtil.drawLine(0, this.gridBox.width, i, i, 2, 0.5f, 0.5f, 0.5f, 0.5f);
+		}
+		
 		super.game.getFontManager().drawString("Current tower",
 				Display.getWidth() - 250, this.titleY, FontManager.BIG,
 				Color.white);
@@ -162,13 +182,14 @@ public class World extends TickListener {
 	@Override
 	public void onRenderTick(float ptt) {
 		super.onRenderTick(ptt);
-		this.mousePoint.setLocation(Mouse.getX(), Display.getHeight() - Mouse.getY());
+		this.mousePoint.setLocation(Mouse.getX(),
+				Display.getHeight() - Mouse.getY());
+		this.newTowerPoint.setLocation(this.mousePoint.x - this.towerWidthHalf, 
+				this.mousePoint.y - this.towerWidthHalf);
 
-		if (!this.overBox) {
+		if (this.overBox) {
 			GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
-					this.currentTowerSelected, this.mousePoint.x
-							- this.towerWidthHalf,
-					this.mousePoint.y - this.towerWidthHalf);
+					this.currentTowerSelected, this.newTowerPoint.x, this.newTowerPoint.y);
 		}
 	}
 

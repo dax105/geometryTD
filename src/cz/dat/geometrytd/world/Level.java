@@ -1,6 +1,7 @@
 package cz.dat.geometrytd.world;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class Level extends TickListener {
 	private int pathTexture;
 	private List<Tower> towers;
 	private List<Enemy> enemies;
+	
+	private Rectangle placingRectangle = new Rectangle(0, 0, 64, 64);
 
 	public Level(Game game, int pathTexture, LevelParser p) {
 		super(game);
@@ -27,6 +30,11 @@ public class Level extends TickListener {
 		this.pathTexture = pathTexture;
 
 		p.parse();
+	}
+	
+	public boolean canPlace(Point p) {
+		this.placingRectangle = new Rectangle(p.x, p.y, 64, 64);
+		return !this.parser.getPathPolygon().intersects(this.placingRectangle);
 	}
 	
 	public void addTower(Tower t) {
