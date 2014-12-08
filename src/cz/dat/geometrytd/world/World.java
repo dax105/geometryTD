@@ -121,8 +121,8 @@ public class World extends TickListener {
 		
 		fogOffset += 0.001f;
 		
-		while (fogOffset > 1f) {
-			fogOffset -= 1f;
+		while (fogOffset > 2f) {
+			fogOffset -= 2f;
 		}
 	}
 
@@ -132,7 +132,7 @@ public class World extends TickListener {
 				0, Display.getHeight());
 		
 		GL11.glColor4f(0.0f, 0.8f, 1.0f, 0.75f);
-		GLUtil.drawTextureColored(game.getTextureManager(), 100, 0+fogOffset, 1+fogOffset, 0+fogOffset, 1+fogOffset, 0, Game.WINDOW_WIDTH, 0, Game.WINDOW_WIDTH);
+		GLUtil.drawTextureColored(game.getTextureManager(), 100, 0+fogOffset, 1+fogOffset, 0+fogOffset, 1*(Game.WINDOW_HEIGHT/(float)Game.WINDOW_WIDTH)+fogOffset, 0, Game.WINDOW_WIDTH, 0, Game.WINDOW_HEIGHT);
 		
 		GLUtil.drawRectangle(0.5f, 0.5f, 0.5f, 0.75f, Display.getWidth() - 260, Display.getWidth() - 20, 
 				this.boxY, 300);
