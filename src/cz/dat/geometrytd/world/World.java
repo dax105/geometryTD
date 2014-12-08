@@ -59,8 +59,8 @@ public class World extends TickListener {
 		this.changeLevel(new Level(game, 3, new LevelParser(this.getClass()
 				.getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
 
-		buttons.add(new TextButton(Display.getWidth() - 250,
-				this.selectedTowerY + 72, "Buy", this) {
+		buttons.add(new TextButton(this.box.x + this.box.width - 50,
+				this.selectedTowerY + 14, "Buy", this) {
 			@Override
 			public void onPress() {
 				towerBought = true;
@@ -171,7 +171,7 @@ public class World extends TickListener {
 		GLUtil.drawRectangle(0.5f, 0.5f, 0.5f, 0.75f, this.box.x, this.box.x
 				+ this.box.width, this.box.y, this.box.y + this.box.height);
 		GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
-				this.currentTowerSelected, Display.getWidth() - 250,
+				this.currentTowerSelected, this.box.x + 10,
 				this.selectedTowerY);
 
 		for (Button b : buttons) {
@@ -187,11 +187,11 @@ public class World extends TickListener {
 		}
 		
 		super.game.getFontManager().drawString("Current tower",
-				Display.getWidth() - 240, this.titleY, FontManager.BIG,
+				this.box.x + 5, this.titleY, FontManager.BIG,
 				Color.white);
 		super.game.getFontManager()
 				.drawString(this.towerNames[this.currentTowerSelected - 1],
-						Display.getWidth() - 240 + 74, this.towerNameFontY,
+						this.box.x + 80, this.towerNameFontY,
 						Color.white);
 
 	}
