@@ -123,10 +123,10 @@ public class World extends TickListener {
 	
     private int getFold(int fold)
     {
-        int ret = 64;
+        int ret = 0;
         while (ret < fold)
         {
-            ret *= 2;
+            ret += 64;
         }
 
         return ret;
