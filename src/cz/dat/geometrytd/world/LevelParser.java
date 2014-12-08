@@ -30,8 +30,8 @@ public class LevelParser {
 		this.start = new Rectangle();
 		this.end = new Rectangle();
 
-		float widthRatio = Display.getWidth() / 1280f;
-		float heightRatio = Display.getHeight() / 720f;
+		float widthRatio = Display.getWidth() / 961f;
+		float heightRatio = Display.getHeight() / 578f;
 
 		try {
 			BufferedReader r = new BufferedReader(new InputStreamReader(
