@@ -1,5 +1,10 @@
 package cz.dat.geometrytd.world;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -21,6 +26,8 @@ public class World extends TickListener {
 	private int boxY, titleY, towerNameFontY, bigFontHeight, towerWidthHalf;
 	private float fogOffset = 0;
 	
+	private List<Button> buttons = new ArrayList<Button>();
+	
 	public World(Game game) {
 		super(game);
 		
@@ -33,6 +40,33 @@ public class World extends TickListener {
 		
 		this.changeLevel(new Level(game, 3, 
 				new LevelParser(this.getClass().getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
+		
+		
+		// LITTLE COPY-PASTING NEVER KILLED NOBODY!
+		// Copy as yer wish is ma frend...
+		buttons.add(new Button(new Rectangle(0, 0, 64, 64), this ) {		
+			int border = 5;
+			
+			@Override
+			public void onPress() {
+				// Some action, probably on w.
+				System.out.println("Pressed button!");
+			}
+
+			@Override
+			public void render() {
+				if (super.onDown) {
+				GLUtil.drawRectangle(1, 1, 1, 0.3f, super.r.x,
+						super.r.x+super.r.width, super.r.y, super.r.y+super.r.height);
+				}
+				
+				GLUtil.drawAtlasTexture(game.getTextureManager(), 1, 5, super.r.x,
+						super.r.x+super.r.width, super.r.y, super.r.y+super.r.height);
+				
+				GLUtil.drawAtlasTexture(game.getTextureManager(), 1, 1, super.r.x + border,
+						super.r.x+super.r.width - border, super.r.y + border, super.r.y+super.r.height - border);
+			}
+		});
 		
 	}
 	
@@ -74,6 +108,15 @@ public class World extends TickListener {
 					this.currentLevel.addTower(t);
 				}
 			}
+			if(Mouse.getEventButton() == 0) {
+				for (Button b : buttons) {
+					if (Mouse.getEventButtonState()) {
+						b.onDown(new Point(Mouse.getX(), Game.WINDOW_HEIGHT-Mouse.getY()));
+					} else {
+						b.onUp(new Point(Mouse.getX(), Game.WINDOW_HEIGHT-Mouse.getY()));
+					}
+				}
+			}
 		}
 		
 		fogOffset += 0.001f;
@@ -96,10 +139,16 @@ public class World extends TickListener {
 		GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1, this.currentTowerSelected, Display.getWidth() - 250,
 				this.titleY + this.bigFontHeight);
 		
+		for (Button b : buttons) {
+			b.render();
+		}
+		
 		super.game.getFontManager().drawString("Current tower", Display.getWidth() - 250, this.titleY,
 				FontManager.BIG, Color.white);
 		super.game.getFontManager().drawString(this.towerNames[this.currentTowerSelected - 1], Display.getWidth() - 250 + 74,
 				this.towerNameFontY, Color.white);
+		
+		
 	}
 	
 	@Override
@@ -110,6 +159,35 @@ public class World extends TickListener {
 		GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1, 
 				this.currentTowerSelected, Mouse.getX() - this.towerWidthHalf, 
 				Display.getHeight() - Mouse.getY() - this.towerWidthHalf);
+	}
+	
+	abstract class Button {
+		private Rectangle r;
+		private World w;
+		
+		private boolean onDown = false;
+		
+		public Button(Rectangle r, World w) {
+			this.r = r;
+			this.w = w;
+		}
+		
+		public void onDown(Point p) {
+			if (r.contains(p)) {
+				onDown = true;
+			}
+		}
+		
+		public void onUp(Point p) {
+			if (onDown && r.contains(p)) {
+				onPress();
+			}	
+			onDown = false;
+		}
+		
+		public abstract void onPress();
+		
+		public abstract void render();
 	}
 	
 }
