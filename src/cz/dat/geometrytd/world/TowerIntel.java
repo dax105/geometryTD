@@ -6,32 +6,40 @@ public class TowerIntel extends Tower {
 
 	public TowerIntel(Game game, Level l) {
 		super(game, 1, l);
-		this.range = 130;
-		this.damage = 5;
+		this.range = 100;
+		this.damage = 10;
 		this.cooldown = 20;
 		this.level = 1;
 	}
 
 	@Override
 	public void setLevel(int level) {
-		
+		if(this.canUpgrade()) {
+			this.range = 150;
+			this.damage = 15;
+			this.cooldown = 15;
+			this.level = level;
+		}
 	}
 
 	@Override
 	public int getLevelCost(int level) {
-		return 500;
+		return 500 + level * 250;
 	}
 
 	@Override
 	public int getNextRange() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 150;
 	}
 
 	@Override
 	public int getNextDamage() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 15;
+	}
+
+	@Override
+	public boolean canUpgrade() {
+		return this.level < 2;
 	}
 
 }

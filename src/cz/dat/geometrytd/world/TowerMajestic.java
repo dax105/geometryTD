@@ -13,7 +13,7 @@ public class TowerMajestic extends Tower {
 
 	@Override
 	public void setLevel(int level) {
-		if (this.level < 3) {
+		if (this.canUpgrade()) {
 			this.tID = 3 + (level == 2 ? 5 : 2);
 			this.damage = (level == 2 ? d2 : d3);
 			this.range = (level == 2 ? r2 : r3);
@@ -37,6 +37,11 @@ public class TowerMajestic extends Tower {
 	@Override
 	public int getNextDamage() {
 		return level == 3 ? d3 : (level == 2 ? d2 : 0);
+	}
+
+	@Override
+	public boolean canUpgrade() {
+		return this.level < 3;
 	}
 
 }

@@ -164,7 +164,6 @@ public class World extends TickListener {
 							Tower t = this.currentLevel
 									.getTowerAt(this.mousePoint);
 							if (t != null) {
-								t.upgrade();
 								this.infoPanel.openTower(t);
 							} else {
 								this.infoPanel.setShowed(false);
