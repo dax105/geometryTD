@@ -52,12 +52,6 @@ public class Level extends TickListener {
 		GLUtil.drawTexture(game.getTextureManager(), this.pathTexture, 0f, 1f, 0f, 1f, 0, Display.getWidth(),
 				0, Display.getHeight());
 		
-		GLUtil.drawRectangle(Color.green, parser.getStart().x, parser.getStart().x + parser.getStart().width, 
-				parser.getStart().y, parser.getStart().y + parser.getStart().height);
-		
-		GLUtil.drawRectangle(Color.red, parser.getEnd().x, parser.getEnd().x + parser.getEnd().width, 
-				parser.getEnd().y, parser.getEnd().y + parser.getEnd().height);
-		
 	}
 
 }
