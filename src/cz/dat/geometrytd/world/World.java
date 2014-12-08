@@ -41,7 +41,7 @@ public class World extends TickListener {
 	private int score = 3500;
 	private TowerInfo infoPanel;
 	
-	private int lives = 5;
+	
 	
 	private int wave = 0;
 
@@ -256,7 +256,7 @@ public class World extends TickListener {
 				this.box.x + 80, this.towerNameFontY, Color.white);
 		super.game.getFontManager().drawString("Score: " + this.score,
 				this.box.x + 5, this.scoreFontY, Color.white);
-		super.game.getFontManager().drawString("Lives: " + this.lives,
+		super.game.getFontManager().drawString("Lives: " + this.currentLevel.lives,
 				this.box.x + 5, this.livesFontY, Color.white);
 		super.game.getFontManager().drawString("Wave: " + this.wave,
 				this.box.x + 5, this.waveFontY, Color.white);
