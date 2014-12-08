@@ -59,11 +59,11 @@ public class Level extends TickListener {
 		if (wave % 10 != 0) {
 			for (int i = 0; i < 20; i++) {
 				toSpawn.add(new Enemy(this.game, this.parser
-						.getPoints(i % 2 == 0), wave*5));
+						.getPoints(i % 2 == 0), wave*10));
 			}
 		} else {
 			toSpawn.add(new Enemy(this.game, this.parser.getPoints(rand
-					.nextInt(2) == 0), wave * 60, false));
+					.nextInt(2) == 0), wave * 70, false));
 		}
 	}
 
