@@ -28,7 +28,7 @@ public class YluminatyPlox extends TickListener {
 
 		if (ticks == 300) {
 			draw = true;
-			if (rnd.nextInt(2) == 100) {
+			if (rnd.nextInt(100) == 0) {
 				drawLord = true;
 			}
 			x = rnd.nextInt(900);
