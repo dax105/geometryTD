@@ -105,14 +105,14 @@ public class World extends TickListener {
 					if (this.overBox) {
 						this.addTower();
 					}
-
-					for (Button b : buttons) {
-						if (Mouse.getEventButtonState()) {
-							b.onDown(this.mousePoint);
-						} else {
-							b.onUp(this.mousePoint);
-						}
-					}
+				}
+			}
+			
+			for (Button b : buttons) {
+				if (Mouse.getEventButtonState()) {
+					b.onDown(this.mousePoint);
+				} else {
+					b.onUp(this.mousePoint);
 				}
 			}
 		}
