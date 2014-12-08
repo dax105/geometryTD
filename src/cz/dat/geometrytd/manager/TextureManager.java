@@ -34,6 +34,14 @@ public class TextureManager {
 		
 		this.addTexture(2, "back.png");
 		this.addTexture(3, "l1.png");
+		this.addTexture(100, "clouds.png");
+		
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+				GL11.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+				GL11.GL_REPEAT);
+		
+		
 	}
 
 	public Texture getTexture(int id) {

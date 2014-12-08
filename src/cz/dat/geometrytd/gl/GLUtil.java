@@ -30,6 +30,27 @@ public class GLUtil {
 		GL11.glVertex2f(x1, y2);
 		GL11.glEnd();
 	}
+	
+	public static void drawTextureColored(TextureManager t, int texture,
+			float textureX1, float textureX2, float textureY1, float textureY2,
+			float x1, float x2, float y1, float y2) {
+		t.bind(texture);
+		
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(textureX1, textureY1);
+		GL11.glVertex2f(x1, y1);
+
+		GL11.glTexCoord2f(textureX2, textureY1);
+		GL11.glVertex2f(x2, y1);
+
+		GL11.glTexCoord2f(textureX2, textureY2);
+		GL11.glVertex2f(x2, y2);
+
+		GL11.glTexCoord2f(textureX1, textureY2);
+		GL11.glVertex2f(x1, y2);
+		GL11.glEnd();
+	}
 
 	public static void drawTexture(TextureManager t, int texture, float x,
 			float y) {

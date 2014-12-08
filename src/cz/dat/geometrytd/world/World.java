@@ -3,6 +3,7 @@ package cz.dat.geometrytd.world;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 
 import cz.dat.geometrytd.Game;
@@ -18,6 +19,7 @@ public class World extends TickListener {
 	private int towers = 4;
 	private String[] towerNames = new String[] { "Snower", "Smacker", "Shocker", "Slower" };
 	private int boxY, titleY, towerNameFontY, bigFontHeight, towerWidthHalf;
+	private float fogOffset = 0;
 	
 	public World(Game game) {
 		super(game);
@@ -73,12 +75,21 @@ public class World extends TickListener {
 				}
 			}
 		}
+		
+		fogOffset += 0.001f;
+		
+		while (fogOffset > 1f) {
+			fogOffset -= 1f;
+		}
 	}
 
 	@Override
 	protected void renderTick(float ptt) {
 		GLUtil.drawTexture(game.getTextureManager(), 2, 0f, 1f, 0f, 1f, 0, Display.getWidth(),
 				0, Display.getHeight());
+		
+		GL11.glColor4f(0.0f, 0.8f, 1.0f, 0.75f);
+		GLUtil.drawTextureColored(game.getTextureManager(), 100, 0+fogOffset, 1+fogOffset, 0+fogOffset, 1+fogOffset, 0, Game.WINDOW_WIDTH, 0, Game.WINDOW_WIDTH);
 		
 		GLUtil.drawRectangle(0.5f, 0.5f, 0.5f, 0.75f, Display.getWidth() - 260, Display.getWidth() - 20, 
 				this.boxY, 300);

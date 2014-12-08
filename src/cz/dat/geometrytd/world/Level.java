@@ -17,7 +17,6 @@ public class Level extends TickListener {
 	private int pathTexture;
 	private List<Tower> towers;
 	private List<Enemy> enemies;
-	
 
 	public Level(Game game, int pathTexture, LevelParser p) {
 		super(game);
@@ -37,6 +36,7 @@ public class Level extends TickListener {
 
 	@Override
 	protected void tick() {
+
 	}
 
 	@Override
