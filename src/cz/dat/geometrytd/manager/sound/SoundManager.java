@@ -16,7 +16,6 @@ import paulscode.sound.libraries.LibraryLWJGLOpenAL;
 public class SoundManager {
 
 	private SoundSystem system;
-	private MusicProvider provider;
 	private boolean isWorking = true;
 	
 	public static Map<String, String> sounds;
@@ -31,6 +30,8 @@ public class SoundManager {
 		SoundManager.sounds = new HashMap<>();
 		SoundManager.music = new HashMap<>();
 		
+		SoundManager.music.put("gaben", "GabeNSong.ogg");
+		SoundManager.sounds.put("error", "error.wav");
 
 		ListenerData d = system.getListenerData();
 		for(Entry<String, String> sound : SoundManager.sounds.entrySet()) {
@@ -38,11 +39,6 @@ public class SoundManager {
 					d.position.x, d.position.y, d.position.z,
 					SoundSystemConfig.ATTENUATION_NONE, 0);
 		}
-
-		SoundManager.sortSounds();
-	}
-
-	private static void sortSounds() {
 	}
 
 	public SoundManager() {
@@ -50,7 +46,7 @@ public class SoundManager {
 			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
 			SoundSystemConfig.setCodec("ogg", paulscode.sound.codecs.CodecJOrbis.class);
 			SoundSystemConfig.setCodec("wav", CodecWav.class);
-			SoundSystemConfig.setSoundFilesPackage(Game.RES_DIR + "sounds/");
+			SoundSystemConfig.setSoundFilesPackage("cz/dat/geometrytd/resources/sounds/");
 		} catch (SoundSystemException e) {
 			Logger.getGlobal().warning("Sound system cannot be initialized!");
 			this.isWorking = false;
@@ -59,11 +55,6 @@ public class SoundManager {
 		
 		this.system = new SoundSystem();
 		SoundManager.loadSounds(this.system);
-		this.provider = new MusicProvider(this);
-	}
-	
-	public MusicProvider getMusicProvider() {
-		return this.provider;
 	}
 
 	public boolean isMusicPlaying() {

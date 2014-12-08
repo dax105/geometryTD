@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.Color;
 
 import cz.dat.geometrytd.Game;
 import cz.dat.geometrytd.TickListener;
@@ -49,6 +48,15 @@ public class Level extends TickListener {
 		this.towers.add(t);
 	}
 
+	public Tower getTowerAt(Point p) {
+		for(Tower t : this.towers) {
+			if(t.getRectangle().contains(p))
+				return t;
+		}
+		
+		return null;
+	}
+	
 	@Override
 	protected void tick() {
 
