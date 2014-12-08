@@ -6,6 +6,9 @@ public class TowerMajestic extends Tower {
 
 	public TowerMajestic(Game game, Level l) {
 		super(game, 4, l);
+		this.range = 5;
+		this.damage = 5;
+		this.cooldown = 100;
 	}
 
 	int r2 = 128, r3 = 256;
@@ -15,33 +18,55 @@ public class TowerMajestic extends Tower {
 	public void setLevel(int level) {
 		if (this.canUpgrade()) {
 			this.tID = 3 + (level == 2 ? 5 : 2);
-			this.damage = (level == 2 ? d2 : d3);
-			this.range = (level == 2 ? r2 : r3);
-			this.level = level;
-
-			if (level > 2)
-				super.game.getSoundManager().playMusic("gaben", true);
+			
+			switch(level) {
+			case 2:
+				this.range = r2;
+				this.damage = d2;
+				break;
+			case 3:
+				this.range = r3;
+				this.damage = d3;
+				break;
+			}
 		}
-	}
-
-	@Override
-	public int getLevelCost(int level) {
-		return level == 3 ? 5000 : (level == 2 ? 1000 : 200);
-	}
-
-	@Override
-	public int getNextRange() {
-		return level == 3 ? r3 : (level == 2 ? r2 : 0);
-	}
-
-	@Override
-	public int getNextDamage() {
-		return level == 3 ? d3 : (level == 2 ? d2 : 0);
 	}
 
 	@Override
 	public boolean canUpgrade() {
 		return this.level < 3;
+	}
+
+
+	@Override
+	public int getLevelCost(int level) {
+		return (level > 1) ? level * 5000 : 200;
+	}
+
+
+	@Override
+	public int getNextRange() {
+		switch(this.level + 1) {
+		case 2:
+			return r2;
+		case 3:
+			return r3;
+		}
+		
+		return r3;
+	}
+
+
+	@Override
+	public int getNextDamage() {
+		switch(this.level + 1) {
+		case 2:
+			return d2;
+		case 3:
+			return d3;
+		}
+		
+		return d3;
 	}
 
 }

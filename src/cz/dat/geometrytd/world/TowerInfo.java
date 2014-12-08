@@ -15,7 +15,6 @@ public class TowerInfo extends TickListener {
 	private Tower currentTower;
 	private boolean show;
 	public TextButton upgradeButton;
-	private Point mousePoint = new Point();
 
 	private int startX, levelY, rangeY, damageY;
 
@@ -36,6 +35,8 @@ public class TowerInfo extends TickListener {
 				if(this.w.score >= currentTower.getLevelCost(currentTower.level + 1)) {
 					this.w.score -= currentTower.getLevelCost(currentTower.level + 1);
 					currentTower.upgrade();
+				} else {
+					game.getSoundManager().playSound("error");
 				}
 			}
 		};
