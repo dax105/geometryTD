@@ -15,6 +15,7 @@ import cz.dat.geometrytd.gl.ShaderProgram;
 import cz.dat.geometrytd.gl.Texture2D;
 import cz.dat.geometrytd.manager.FontManager;
 import cz.dat.geometrytd.manager.TextureManager;
+import cz.dat.geometrytd.manager.sound.SoundManager;
 import cz.dat.geometrytd.world.World;
 
 public class Game implements Runnable {
@@ -31,6 +32,7 @@ public class Game implements Runnable {
 	
 	private TextureManager textureManager;
 	private FontManager fontManager;
+	private SoundManager soundManager;
 	
 	private World world;
 	
@@ -128,7 +130,9 @@ public class Game implements Runnable {
 		
 		this.textureManager = new TextureManager();
 		this.fontManager = new FontManager();
-
+		this.soundManager = new SoundManager();
+		this.soundManager.updateVolume(true, 0.6f);
+		
 		long time = System.nanoTime();
 		long lastTime = time;
 		long lastInfo = time;
@@ -184,6 +188,7 @@ public class Game implements Runnable {
 		}
 		
 		this.textureManager.dispose();
+		this.soundManager.shutdown();
 	}
 
 	public void bindTex(int id) {
@@ -197,6 +202,10 @@ public class Game implements Runnable {
 	
 	public FontManager getFontManager() {
 		return this.fontManager;
+	}
+	
+	public SoundManager getSoundManager() {
+		return this.soundManager;
 	}
 	
 	public static void initDisplay() {

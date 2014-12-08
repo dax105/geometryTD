@@ -11,15 +11,17 @@ public class TowerMajestic extends Tower {
 
 	@Override
 	public void setLevel(int level) {
-		this.tID = 5 + level;
-		this.damage = (level - 1) * 200;
-		this.range = (level - 1) * 128;
+		this.tID = 3 + level;
+		this.damage = 500;
+		this.range = 128;
 		this.level = level;
+		
+		super.game.getSoundManager().playMusic("gaben", true);
 	}
 
 	@Override
-	public int getNextLevelCost() {
-		return this.level * 3000;
+	public int getLevelCost(int level) {
+		return level == 2 ? 2000 : 100;
 	}
 
 }

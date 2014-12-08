@@ -17,9 +17,8 @@ public class TowerIntel extends Tower {
 	}
 
 	@Override
-	public int getNextLevelCost() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getLevelCost(int level) {
+		return 500;
 	}
 
 }
