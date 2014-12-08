@@ -16,15 +16,18 @@ public abstract class Tower extends TickListener {
 	protected Rectangle rec;
 	protected int level;
 	protected int damage;
+	protected int cooldown;
 	protected Level l;
 	
+	protected int timer = 0;
 	
 	public Tower(Game game, int textureID, Level l) {
 		super(game);
 		this.l = l;
 		this.level = 1;
-		this.range = 200;
+		this.range = 130;
 		this.damage = 1;
+		this.cooldown = 5;
 		this.tID = textureID;
 		this.rec = new Rectangle();
 		this.rec.setSize((int)this.game.getTextureManager().getTexture(1).SheetSize.x,
@@ -59,6 +62,10 @@ public abstract class Tower extends TickListener {
 	@Override
 	protected void tick() {
 		
+		timer--;
+		
+		if (timer <= 0) {
+		
 		float ld = 0;
 		Enemy closest = null;
 		
@@ -69,7 +76,6 @@ public abstract class Tower extends TickListener {
 			float d = (float) new Point((int)e.x, (int)e.y).distance(pos);
 			
 			if (d <= this.range) {
-				System.out.println(d);
 				if (closest == null) {
 					closest = e;
 					ld = d;
@@ -81,7 +87,10 @@ public abstract class Tower extends TickListener {
 		}
 		
 		if (closest != null) {
+			this.l.shoot(new ShootEffect(org.newdawn.slick.Color.yellow, pos, new Point((int)closest.x, (int)closest.y), 5, 2));
 			closest.life -= this.damage;
+			timer = cooldown;
+		}
 		}
 		
 	}

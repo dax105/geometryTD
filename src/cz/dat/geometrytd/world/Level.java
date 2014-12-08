@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.glu.GLU;
+import org.newdawn.slick.Color;
 
 import cz.dat.geometrytd.Game;
 import cz.dat.geometrytd.TickListener;
@@ -31,6 +33,12 @@ public class Level extends TickListener {
 
 	private Rectangle placingRectangle = new Rectangle(0, 0, 64, 64);
 
+	private List<ShootEffect> se = new ArrayList<ShootEffect>();
+	
+	public void shoot(ShootEffect e) {
+		se.add(e);
+	}
+	
 	public Level(Game game, int pathTexture, LevelParser p) {
 		super(game);
 		this.children.add(new YluminatyPlox(game));
@@ -93,6 +101,16 @@ public class Level extends TickListener {
 		if (!this.isDead) {
 			counter++;
 
+			Iterator<ShootEffect> si = se.iterator();
+			while (si.hasNext()) {
+				ShootEffect e = si.next();
+				e.tick(); {
+					if (e.time >= e.duration) {
+						si.remove();
+					}
+				}
+			}
+			
 			if (counter >= 5 && toSpawn.size() > 0) {
 				counter = 0;
 				Enemy e = toSpawn.remove(0);
@@ -134,6 +152,12 @@ public class Level extends TickListener {
 
 		for (Enemy e : enemies) {
 			e.onRenderTick(ptt);
+		}
+		
+		Iterator<ShootEffect> si = se.iterator();
+		while (si.hasNext()) {
+			ShootEffect e = si.next();
+			e.draw(ptt); 	
 		}
 
 	}
