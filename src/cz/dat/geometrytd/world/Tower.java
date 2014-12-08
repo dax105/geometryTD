@@ -17,7 +17,7 @@ public abstract class Tower extends TickListener {
 	
 	public Tower(Game game, int textureID) {
 		super(game);
-		
+		this.level = 1;
 		this.tID = textureID;
 		this.rec = new Rectangle();
 		this.rec.setSize((int)this.game.getTextureManager().getTexture(1).SheetSize.x,
@@ -26,7 +26,12 @@ public abstract class Tower extends TickListener {
 	
 	public abstract void setLevel(int level);
 	public abstract int getLevelCost(int level);
+	public abstract int getNextRange();
+	public abstract int getNextDamage();
 	
+	public void upgrade() {
+		this.setLevel(this.level + 1);
+	}
 	
 	public int getLevel() {
 		return this.level;

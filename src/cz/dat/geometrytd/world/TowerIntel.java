@@ -21,4 +21,16 @@ public class TowerIntel extends Tower {
 		return 500;
 	}
 
+	@Override
+	public int getNextRange() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNextDamage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

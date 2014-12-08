@@ -18,4 +18,16 @@ public class TowerNVidia extends Tower {
 		return 1000;
 	}
 
+	@Override
+	public int getNextRange() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNextDamage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
