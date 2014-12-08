@@ -7,19 +7,21 @@ public class TowerMajestic extends Tower {
 	public TowerMajestic(Game game, Level l) {
 		super(game, 4, l);
 	}
-	
+
 	int r2 = 128, r3 = 256;
 	int d2 = 20, d3 = 500;
 
 	@Override
 	public void setLevel(int level) {
-		this.tID = 3 + (level == 2 ? 5 : 2);
-		this.damage =  (level == 2 ? d2 : d3);
-		this.range =  (level == 2 ? r2 : r3);
-		this.level = level;
-		
-		if(level > 2)
-			super.game.getSoundManager().playMusic("gaben", true);
+		if (this.level < 3) {
+			this.tID = 3 + (level == 2 ? 5 : 2);
+			this.damage = (level == 2 ? d2 : d3);
+			this.range = (level == 2 ? r2 : r3);
+			this.level = level;
+
+			if (level > 2)
+				super.game.getSoundManager().playMusic("gaben", true);
+		}
 	}
 
 	@Override

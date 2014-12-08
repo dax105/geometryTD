@@ -90,7 +90,7 @@ public class World extends TickListener {
 			}
 		});
 
-		this.infoPanel = new TowerInfo(this);
+		this.infoPanel = new TowerInfo(this, this.box.x + 5, this.skipFontY);
 		this.children.add(this.infoPanel);
 
 	}
