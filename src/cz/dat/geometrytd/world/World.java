@@ -40,9 +40,9 @@ public class World extends TickListener {
 
 	private int score = 3500;
 	private TowerInfo infoPanel;
-	
+
 	private int lives = 5;
-	
+
 	private int wave = 0;
 
 	private List<Button> buttons = new ArrayList<Button>();
@@ -66,9 +66,9 @@ public class World extends TickListener {
 		this.scoreFontY = this.nextWaveFontY
 				+ game.getFontManager().getFont().getHeight();
 		this.livesFontY = this.scoreFontY
-				+ game.getFontManager().getFont().getHeight()-12;
+				+ game.getFontManager().getFont().getHeight() - 12;
 		this.waveFontY = this.livesFontY
-				+ game.getFontManager().getFont().getHeight()-12;
+				+ game.getFontManager().getFont().getHeight() - 12;
 
 		this.changeLevel(new Level(game, 3, new LevelParser(this.getClass()
 				.getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
@@ -103,20 +103,20 @@ public class World extends TickListener {
 
 	int tts = 0;
 	int next = 20;
-	
+
 	private void nextWave() {
 		wave++;
 		currentLevel.wave(wave);
 	}
-	
+
 	@Override
 	protected void tick() {
 		tts++;
 		if (tts == 20) {
 			tts = 0;
-			next--;		
+			next--;
 		}
-		
+
 		if (next <= 0) {
 			nextWave();
 			next = 20;
@@ -133,7 +133,7 @@ public class World extends TickListener {
 					if (k == Keyboard.KEY_LEFT) {
 						this.currentTowerSelected--;
 					}
-					
+
 					if (k == Keyboard.KEY_SPACE) {
 						this.next = 0;
 					}
@@ -260,22 +260,60 @@ public class World extends TickListener {
 				this.box.x + 5, this.livesFontY, Color.white);
 		super.game.getFontManager().drawString("Wave: " + this.wave,
 				this.box.x + 5, this.waveFontY, Color.white);
-		super.game.getFontManager().drawString("Next wave in: " + next + "s", this.box.x + 5, this.nextWaveFontY-2, FontManager.BIG, Color.white);
+		super.game.getFontManager().drawString("Next wave in: " + next + "s",
+				this.box.x + 5, this.nextWaveFontY - 2, FontManager.BIG,
+				Color.white);
 
 	}
+
+	private boolean started = false;
+	private String screenString = "Use arrows to change tower. Destroy all the potato consoles. Click to start.";
+	private boolean isEnd = false;
 
 	@Override
 	public void onRenderTick(float ptt) {
 		super.onRenderTick(ptt);
-		this.mousePoint.setLocation(Mouse.getX(),
-				Display.getHeight() - Mouse.getY());
-		this.newTowerPoint.setLocation(this.mousePoint.x, this.mousePoint.y);
 
-		if (this.overBox && this.towerBought) {
-			GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
-					this.currentTowerSelected, this.newTowerPoint.x
-							- towerWidthHalf, this.newTowerPoint.y
-							- towerWidthHalf);
+		if (started) {
+			this.mousePoint.setLocation(Mouse.getX(), Display.getHeight()
+					- Mouse.getY());
+			this.newTowerPoint
+					.setLocation(this.mousePoint.x, this.mousePoint.y);
+
+			if (this.overBox && this.towerBought) {
+				GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
+						this.currentTowerSelected, this.newTowerPoint.x
+								- towerWidthHalf, this.newTowerPoint.y
+								- towerWidthHalf);
+
+			}
+		} else {
+			GLUtil.drawRectangle(0.3f, 0.3f, 0.3f, 0.85f, 0,
+					Display.getWidth(), 0, Display.getHeight());
+			int width = this.game.getFontManager().getFont(FontManager.BIG).getWidth(this.screenString);
+			int height = this.game.getFontManager().getFont(FontManager.BIG).getHeight(this.screenString);
+			this.game.getFontManager().drawString(this.screenString, (Display.getWidth() / 2) - (width / 2),
+					(Display.getHeight() / 2) - (height / 2), FontManager.BIG, Color.white);
+		}
+	}
+
+	@Override
+	public void onTick() {
+		if (started) {
+			super.onTick();
+		} else {
+			while(Mouse.next()) {
+				if(Mouse.getEventButtonState()) {
+					if(Mouse.getEventButton() == 0) {
+						if(isEnd) {
+							System.exit(0);
+						} else {
+							this.started = true;
+							this.isEnd = true;
+						}
+					}
+				}
+			}
 		}
 	}
 
