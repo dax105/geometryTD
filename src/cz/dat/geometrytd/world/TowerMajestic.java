@@ -8,12 +8,14 @@ public class TowerMajestic extends Tower {
 		super(game, 4, l);
 	}
 	
+	int r2 = 128, r3 = 256;
+	int d2 = 20, d3 = 500;
 
 	@Override
 	public void setLevel(int level) {
 		this.tID = 3 + (level == 2 ? 5 : 2);
-		this.damage =  (level == 2 ? 20 : 500);
-		this.range =  (level == 2 ? 32 : 128);
+		this.damage =  (level == 2 ? d2 : d3);
+		this.range =  (level == 2 ? r2 : r3);
 		this.level = level;
 		
 		if(level > 2)
@@ -27,12 +29,12 @@ public class TowerMajestic extends Tower {
 
 	@Override
 	public int getNextRange() {
-		return level == 3 ? 128 : (level == 2 ? 32 : 0);
+		return level == 3 ? r3 : (level == 2 ? r2 : 0);
 	}
 
 	@Override
 	public int getNextDamage() {
-		return level == 3 ? 500 : (level == 2 ? 20 : 0);
+		return level == 3 ? d3 : (level == 2 ? d2 : 0);
 	}
 
 }
