@@ -63,7 +63,7 @@ public class Level extends TickListener {
 			}
 		} else {
 			toSpawn.add(new Enemy(this.game, this.parser.getPoints(rand
-					.nextInt(2) == 0), wave * 70, false));
+					.nextInt(2) == 0), wave * 160, false));
 		}
 	}
 
@@ -138,6 +138,10 @@ public class Level extends TickListener {
 						}
 					} else {
 						this.game.getWorld().score += this.game.getWorld().wave *10;
+						
+						if (e.img == 7) {
+							this.game.getWorld().score += this.game.getWorld().wave *90;
+						}
 					}
 					
 					it.remove();
