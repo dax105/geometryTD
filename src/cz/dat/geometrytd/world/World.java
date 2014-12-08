@@ -79,7 +79,7 @@ public class World extends TickListener {
 			public void onPress() {
 				if (!towerBought) {
 					Tower t = generateTower(currentTowerSelected);
-					if (score > t.getLevelCost(1)) {
+					if (score >= t.getLevelCost(1)) {
 						towerBought = true;
 						score -= t.getLevelCost(1);
 					} else {
