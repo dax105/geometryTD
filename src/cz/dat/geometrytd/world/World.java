@@ -28,6 +28,9 @@ public class World extends TickListener {
 			"Shocker", "Slower" };
 	private Rectangle box;
 	private Rectangle gridBox;
+	
+	public static final int TOWER_WIDTH_HALF = 32;
+	
 	private int boxY, titleY, towerNameFontY, bigFontHeight, towerWidthHalf,
 			selectedTowerY;
 	private boolean overBox = false;
@@ -123,13 +126,11 @@ public class World extends TickListener {
 	
     private int getFold(int fold)
     {
-        int ret = 64;
-        while (ret < fold)
-        {
-            ret *= 2;
-        }
+        int d = fold / 64;
+    	
+    	d *= 64;
 
-        return ret;
+        return d;
     }
 
 	private void addTower() {
@@ -184,12 +185,12 @@ public class World extends TickListener {
 		super.onRenderTick(ptt);
 		this.mousePoint.setLocation(Mouse.getX(),
 				Display.getHeight() - Mouse.getY());
-		this.newTowerPoint.setLocation(this.mousePoint.x - this.towerWidthHalf, 
-				this.mousePoint.y - this.towerWidthHalf);
+		this.newTowerPoint.setLocation(this.mousePoint.x, 
+				this.mousePoint.y);
 
 		if (this.overBox) {
 			GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
-					this.currentTowerSelected, this.newTowerPoint.x, this.newTowerPoint.y);
+					this.currentTowerSelected, this.newTowerPoint.x - towerWidthHalf, this.newTowerPoint.y - towerWidthHalf);
 		}
 	}
 
