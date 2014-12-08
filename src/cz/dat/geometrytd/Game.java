@@ -187,8 +187,13 @@ public class Game implements Runnable {
 			Display.update();
 		}
 		
+		this.exit();
+	}
+	
+	public void exit() {
 		this.textureManager.dispose();
 		this.soundManager.shutdown();
+		System.exit(0);
 	}
 
 	public void bindTex(int id) {

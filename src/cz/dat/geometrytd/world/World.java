@@ -298,15 +298,20 @@ public class World extends TickListener {
 	public void onTick() {
 		if (started) {
 			super.onTick();
+			if(this.currentLevel.isOver()) {
+				this.started = false;
+				this.screenString = "Game over. You've survived " + this.wave + " waves. You've ended up with " + this.score + " points.";
+			}
 		} else {
 			while(Mouse.next()) {
 				if(Mouse.getEventButtonState()) {
 					if(Mouse.getEventButton() == 0) {
 						if(isEnd) {
-							System.exit(0);
+							this.game.exit();
 						} else {
 							this.started = true;
 							this.isEnd = true;
+							this.game.getSoundManager().playMusic("main", true);
 						}
 					}
 				}
