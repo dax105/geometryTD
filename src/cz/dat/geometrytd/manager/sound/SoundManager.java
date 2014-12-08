@@ -35,6 +35,7 @@ public class SoundManager {
 		SoundManager.sounds.put("pew", "pew.wav");
 		SoundManager.sounds.put("end", "end.wav");
 		SoundManager.sounds.put("error", "error.wav");
+		SoundManager.sounds.put("laser", "laser.wav");
 
 		ListenerData d = system.getListenerData();
 		for(Entry<String, String> sound : SoundManager.sounds.entrySet()) {

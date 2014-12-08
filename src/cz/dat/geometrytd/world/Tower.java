@@ -87,6 +87,7 @@ public abstract class Tower extends TickListener {
 		}
 		
 		if (closest != null) {
+			this.game.getSoundManager().playSound("laser");
 			this.l.shoot(new ShootEffect(org.newdawn.slick.Color.yellow, pos, new Point((int)closest.x, (int)closest.y), 5, 2));
 			closest.life -= this.damage;
 			timer = cooldown;
