@@ -31,6 +31,9 @@ public class SoundManager {
 		SoundManager.music = new HashMap<>();
 		
 		SoundManager.music.put("gaben", "GabeNSong.ogg");
+		SoundManager.music.put("main", "music.ogg");
+		SoundManager.sounds.put("pew", "pew.wav");
+		SoundManager.sounds.put("end", "end.wav");
 		SoundManager.sounds.put("error", "error.wav");
 
 		ListenerData d = system.getListenerData();
