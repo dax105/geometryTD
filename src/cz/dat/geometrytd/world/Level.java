@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import cz.dat.geometrytd.Game;
 import cz.dat.geometrytd.TickListener;
 import cz.dat.geometrytd.gl.GLUtil;
+import cz.dat.geometrytd.world.gui.YluminatyPlox;
 
 public class Level extends TickListener {
 
@@ -23,6 +24,7 @@ public class Level extends TickListener {
 
 	public Level(Game game, int pathTexture, LevelParser p) {
 		super(game);
+		this.children.add(new YluminatyPlox(game));
 		this.towers = new ArrayList<Tower>();
 		this.enemies = new ArrayList<Enemy>();
 		
@@ -38,6 +40,11 @@ public class Level extends TickListener {
 	}
 	
 	public void addTower(Tower t) {
+		for(Tower ct : towers) {
+			if(ct.getRectangle().intersects(t.getRectangle()))
+				return;
+		}
+		
 		this.children.add(t);
 		this.towers.add(t);
 	}

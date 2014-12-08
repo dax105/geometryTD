@@ -24,6 +24,7 @@ public class World extends TickListener {
 
 	private int currentTowerSelected = 1;
 	private int towers = 4;
+	private boolean towerBought = false;
 	private String[] towerNames = new String[] { "Snower", "Smacker",
 			"Shocker", "Slower" };
 	private Rectangle box;
@@ -59,7 +60,7 @@ public class World extends TickListener {
 				.getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
 
 		buttons.add(new TextButton(Display.getWidth() - 250,
-				this.selectedTowerY + 72, "Test", this) {
+				this.selectedTowerY + 72, "Buy", this) {
 			@Override
 			public void onPress() {
 				System.out.println("Pressed");
