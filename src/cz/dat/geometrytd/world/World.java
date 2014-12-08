@@ -46,7 +46,7 @@ public class World extends TickListener {
 		this.bigFontHeight = super.game.getFontManager()
 				.getFont(FontManager.BIG).getHeight();
 		this.boxY = 20;
-		this.box = new Rectangle(Display.getWidth() - 260, this.boxY, 240, 500);
+		this.box = new Rectangle(Display.getWidth() - 250, this.boxY, 250 - this.boxY, Display.getHeight()-this.boxY*2);
 		this.gridBox = new Rectangle(0, 0, this.box.x - 10, Display.getHeight());
 		this.titleY = this.boxY - (this.bigFontHeight / 4);
 		this.towerNameFontY = this.titleY + this.bigFontHeight
@@ -171,11 +171,11 @@ public class World extends TickListener {
 		}
 		
 		super.game.getFontManager().drawString("Current tower",
-				Display.getWidth() - 250, this.titleY, FontManager.BIG,
+				Display.getWidth() - 240, this.titleY, FontManager.BIG,
 				Color.white);
 		super.game.getFontManager()
 				.drawString(this.towerNames[this.currentTowerSelected - 1],
-						Display.getWidth() - 250 + 74, this.towerNameFontY,
+						Display.getWidth() - 240 + 74, this.towerNameFontY,
 						Color.white);
 
 	}
