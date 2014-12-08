@@ -25,8 +25,8 @@ public class World extends TickListener {
 	private int currentTowerSelected = 1;
 	private int towers = 4;
 	private boolean towerBought = false;
-	private String[] towerNames = new String[] { "Snower", "Smacker",
-			"Shocker", "Slower" };
+	private String[] towerNames = new String[] { "Intel", "AMD",
+			"nVidia", "IE" };
 	private Rectangle box;
 	private Rectangle gridBox;
 	
@@ -63,7 +63,7 @@ public class World extends TickListener {
 				this.selectedTowerY + 72, "Buy", this) {
 			@Override
 			public void onPress() {
-				System.out.println("Pressed");
+				towerBought = true;
 			}
 		});
 
@@ -103,8 +103,9 @@ public class World extends TickListener {
 			if (Mouse.getEventButtonState()) {
 				if (Mouse.getEventButton() == 0) {
 
-					if (this.overBox) {
+					if (this.overBox && this.towerBought) {
 						this.addTower();
+						this.towerBought = false;
 					}
 				}
 			}
@@ -135,7 +136,21 @@ public class World extends TickListener {
     }
 
 	private void addTower() {
-		Tower t = new TowerSnower(super.game);
+		Tower t = null;
+		switch(this.currentTowerSelected) {
+		case 1:
+			t = new TowerIntel(this.game);
+			break;
+		case 2:
+			t = new TowerAMD(this.game);
+			break;
+		case 3:
+			t = new TowerNVidia(this.game);
+			break;
+		case 4:
+			t = new TowerMajestic(this.game);
+			break;
+		}
 		t.getRectangle().setLocation(this.getFold(this.newTowerPoint.x),
 				this.getFold(this.newTowerPoint.y));
 		this.currentLevel.addTower(t);
@@ -189,7 +204,7 @@ public class World extends TickListener {
 		this.newTowerPoint.setLocation(this.mousePoint.x, 
 				this.mousePoint.y);
 
-		if (this.overBox) {
+		if (this.overBox && this.towerBought) {
 			GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
 					this.currentTowerSelected, this.newTowerPoint.x - towerWidthHalf, this.newTowerPoint.y - towerWidthHalf);
 		}
