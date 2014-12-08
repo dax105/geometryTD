@@ -91,7 +91,7 @@ public class Game implements Runnable {
 		
 		GL11.glColor4f(1, 1, 1, 0.4f);
 		bindTex(fboTextures[1].getId());
-		//drawFullscreenQuad();
+		drawFullscreenQuad();
 	}
 	
 	private void drawFullscreenQuad() {
