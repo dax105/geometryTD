@@ -284,12 +284,15 @@ public class World extends TickListener {
 			this.newTowerPoint
 					.setLocation(this.mousePoint.x, this.mousePoint.y);
 
-			if (this.overBox && this.towerBought) {
+			if (this.towerBought) {
 				GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
 						this.currentTowerSelected, this.newTowerPoint.x
 								- towerWidthHalf, this.newTowerPoint.y
 								- towerWidthHalf);
-
+				
+				if (!this.overBox) {
+					GLUtil.drawRectangle(1, 0, 0, 0.5f, this.newTowerPoint.x - towerWidthHalf, this.newTowerPoint.x + towerWidthHalf, this.newTowerPoint.y - towerWidthHalf, this.newTowerPoint.y + towerWidthHalf);
+				}
 			}
 		} else {
 			GLUtil.drawRectangle(0.3f, 0.3f, 0.3f, 0.85f, 0,
