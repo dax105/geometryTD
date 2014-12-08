@@ -109,6 +109,8 @@ public class World extends TickListener {
 		currentLevel.wave(wave);
 	}
 
+	private boolean cp = false;
+	
 	@Override
 	protected void tick() {
 		tts++;
@@ -123,8 +125,8 @@ public class World extends TickListener {
 			next = 25;
 		}
 
-		this.overBox = this.gridBox.contains(this.mousePoint)
-				&& this.currentLevel.canPlace(this.newTowerPoint);
+		this.overBox = this.gridBox.contains(this.mousePoint);
+		this.cp = this.currentLevel.canPlace(this.mousePoint);
 
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
@@ -157,9 +159,12 @@ public class World extends TickListener {
 				if (Mouse.getEventButton() == 0) {
 
 					if (this.overBox) {
-						if (this.towerBought) {
-							this.addTower();
-							this.towerBought = false;
+						if (this.towerBought && cp) {
+							if (this.addTower()) {
+								this.towerBought = false;
+							} else {
+								game.getSoundManager().playSound("error");
+							}
 						} else {
 							Tower t = this.currentLevel
 									.getTowerAt(this.mousePoint);
@@ -197,11 +202,11 @@ public class World extends TickListener {
 		return d;
 	}
 
-	private void addTower() {
+	private boolean addTower() {
 		Tower t = this.generateTower(this.currentTowerSelected);
 		t.getRectangle().setLocation(this.getFold(this.newTowerPoint.x),
 				this.getFold(this.newTowerPoint.y));
-		this.currentLevel.addTower(t);
+		return this.currentLevel.addTower(t);
 	}
 
 	private Tower generateTower(int num) {
@@ -290,7 +295,7 @@ public class World extends TickListener {
 								- towerWidthHalf, this.newTowerPoint.y
 								- towerWidthHalf);
 				
-				if (!this.overBox) {
+				if (!this.overBox || !cp) {
 					GLUtil.drawRectangle(1, 0, 0, 0.5f, this.newTowerPoint.x - towerWidthHalf, this.newTowerPoint.x + towerWidthHalf, this.newTowerPoint.y - towerWidthHalf, this.newTowerPoint.y + towerWidthHalf);
 				}
 			}

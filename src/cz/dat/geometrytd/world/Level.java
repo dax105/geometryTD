@@ -59,28 +59,30 @@ public class Level extends TickListener {
 		if (wave % 10 != 0) {
 			for (int i = 0; i < 20; i++) {
 				toSpawn.add(new Enemy(this.game, this.parser
-						.getPoints(i % 2 == 0), wave));
+						.getPoints(i % 2 == 0), wave*5));
 			}
 		} else {
 			toSpawn.add(new Enemy(this.game, this.parser.getPoints(rand
-					.nextInt(2) == 0), wave * 25));
+					.nextInt(2) == 0), wave * 60, false));
 		}
 	}
 
 	public boolean canPlace(Point p) {
-		this.placingRectangle = new Rectangle(p.x - World.TOWER_WIDTH_HALF, p.y
-				- World.TOWER_WIDTH_HALF, 64, 64);
+		this.placingRectangle = new Rectangle(p.x - 5, p.y
+				- 5, 10, 10);
 		return !this.parser.getPathPolygon().intersects(this.placingRectangle);
 	}
 
-	public void addTower(Tower t) {
+	public boolean addTower(Tower t) {
 		for (Tower ct : towers) {
 			if (ct.getRectangle().intersects(t.getRectangle()))
-				return;
+				return false;
 		}
 
 		this.children.add(t);
 		this.towers.add(t);
+		
+		return true;
 	}
 
 	public Tower getTowerAt(Point p) {
