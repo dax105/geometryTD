@@ -56,14 +56,14 @@ public class Level extends TickListener {
 	Random rand = new Random();
 
 	public void wave(int wave) {
-		if (wave % 10 != 0) {
+		if (wave % 2 != 0) {
 			for (int i = 0; i < 20; i++) {
 				toSpawn.add(new Enemy(this.game, this.parser
-						.getPoints(i % 2 == 0), wave));
+						.getPoints(i % 2 == 0), wave*5));
 			}
 		} else {
 			toSpawn.add(new Enemy(this.game, this.parser.getPoints(rand
-					.nextInt(2) == 0), wave * 25));
+					.nextInt(2) == 0), wave * 60, false));
 		}
 	}
 
