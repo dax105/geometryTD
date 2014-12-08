@@ -34,8 +34,8 @@ public class Game implements Runnable {
 	
 	private World world;
 	
-	private FramebufferObject[] frameBuffers = new FramebufferObject[4];
-	private Texture2D[] fboTextures = new Texture2D[4];
+	private FramebufferObject[] frameBuffers = new FramebufferObject[2];
+	private Texture2D[] fboTextures = new Texture2D[2];
 	
 	private ShaderProgram verticalBlur;
 
@@ -163,10 +163,8 @@ public class Game implements Runnable {
 
 			float ptt = (time - lastTime) / ((float) Game.TICK_TIME * Game.MAGIC_CONSTANT);
 
-			if (Display.isActive()) {
-				this.renderTick(ptt);
-				fps++;
-			}
+			this.renderTick(ptt);
+			fps++;
 
 			time = System.nanoTime();
 			while (time - lastTime >= Game.TICK_TIME * Game.MAGIC_CONSTANT) {
