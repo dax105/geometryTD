@@ -79,7 +79,11 @@ public class Level extends TickListener {
 
 		return null;
 	}
-
+	
+	public boolean canSkip() {
+		return this.toSpawn.size() == 0;
+	}
+	
 	@Override
 	protected void tick() {
 		if (!this.isDead) {

@@ -32,7 +32,8 @@ public class World extends TickListener {
 	public static final int TOWER_WIDTH_HALF = 32;
 
 	private int boxY, titleY, towerNameFontY, bigFontHeight, towerWidthHalf,
-			selectedTowerY, nextWaveFontY, scoreFontY, livesFontY, waveFontY;
+			selectedTowerY, nextWaveFontY, scoreFontY, livesFontY, waveFontY,
+			skipFontY;
 	private boolean overBox = false;
 	private Point mousePoint = new Point();
 	private Point newTowerPoint = new Point();
@@ -66,6 +67,8 @@ public class World extends TickListener {
 				+ game.getFontManager().getFont().getHeight() - 12;
 		this.waveFontY = this.livesFontY
 				+ game.getFontManager().getFont().getHeight() - 12;
+		this.skipFontY = this.waveFontY
+				+ game.getFontManager().getFont().getHeight()-6;
 
 		this.changeLevel(new Level(game, 3, new LevelParser(this.getClass()
 				.getResourceAsStream(Game.RES_DIR + "levels/l1.txt"))));
@@ -99,7 +102,7 @@ public class World extends TickListener {
 	}
 
 	int tts = 0;
-	int next = 20;
+	int next = 25;
 
 	private void nextWave() {
 		wave++;
@@ -116,7 +119,8 @@ public class World extends TickListener {
 
 		if (next <= 0) {
 			nextWave();
-			next = 20;
+			tts = 0;
+			next = 25;
 		}
 
 		this.overBox = this.gridBox.contains(this.mousePoint)
@@ -131,7 +135,7 @@ public class World extends TickListener {
 						this.currentTowerSelected--;
 					}
 
-					if (k == Keyboard.KEY_SPACE) {
+					if (k == Keyboard.KEY_SPACE && this.currentLevel.canSkip()) {
 						this.next = 0;
 					}
 
@@ -260,7 +264,10 @@ public class World extends TickListener {
 		super.game.getFontManager().drawString("Next wave in: " + next + "s",
 				this.box.x + 5, this.nextWaveFontY - 2, FontManager.BIG,
 				Color.white);
-
+		
+		if (this.currentLevel.canSkip() && this.tts % 20 > 5) {
+			super.game.getFontManager().drawString("-PRESS SPACE TO SKIP-", this.box.x + 12, this.skipFontY, FontManager.SMALL, Color.white);
+		}
 	}
 
 	private boolean started = false;
@@ -277,12 +284,15 @@ public class World extends TickListener {
 			this.newTowerPoint
 					.setLocation(this.mousePoint.x, this.mousePoint.y);
 
-			if (this.overBox && this.towerBought) {
+			if (this.towerBought) {
 				GLUtil.drawAtlasTexture(super.game.getTextureManager(), 1,
 						this.currentTowerSelected, this.newTowerPoint.x
 								- towerWidthHalf, this.newTowerPoint.y
 								- towerWidthHalf);
-
+				
+				if (!this.overBox) {
+					GLUtil.drawRectangle(1, 0, 0, 0.5f, this.newTowerPoint.x - towerWidthHalf, this.newTowerPoint.x + towerWidthHalf, this.newTowerPoint.y - towerWidthHalf, this.newTowerPoint.y + towerWidthHalf);
+				}
 			}
 		} else {
 			GLUtil.drawRectangle(0.3f, 0.3f, 0.3f, 0.85f, 0,

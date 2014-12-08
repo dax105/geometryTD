@@ -18,7 +18,7 @@ public class Enemy extends TickListener {
 	float x, y;
 	float lastX, lastY;
 	float totalDist = 0;
-	float speed = 3;
+	float speed = 4;
 	
 	int maxLife;
 	int life;
@@ -55,8 +55,12 @@ public class Enemy extends TickListener {
 		this.lastX = x;
 		this.lastY = y;
 		
-		this.totalDist += this.speed;
-		updatePosition();
+		if (this.life <= 0) {
+			this.dead = true;
+		} else {
+			this.totalDist += this.speed;
+			updatePosition();		
+		}
 	}
 
 	private void updatePosition() {
