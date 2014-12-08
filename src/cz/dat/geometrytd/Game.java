@@ -89,7 +89,7 @@ public class Game implements Runnable {
 		bindTex(fboTextures[0].getId());
 		drawFullscreenQuad();
 		
-		GL11.glColor4f(1, 1, 1, 0.5f);
+		GL11.glColor4f(1, 1, 1, 0.4f);
 		bindTex(fboTextures[1].getId());
 		drawFullscreenQuad();
 	}
