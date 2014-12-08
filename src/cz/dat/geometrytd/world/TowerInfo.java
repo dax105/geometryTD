@@ -1,6 +1,7 @@
 package cz.dat.geometrytd.world;
 
 import cz.dat.geometrytd.TickListener;
+import cz.dat.geometrytd.gl.GLUtil;
 
 public class TowerInfo extends TickListener {
 
@@ -32,7 +33,8 @@ public class TowerInfo extends TickListener {
 	@Override
 	protected void renderTick(float ptt) {
 		if(this.show) {
-			
+			GLUtil.drawCircle(this.currentTower.rec.x + (this.currentTower.rec.width / 2),
+					this.currentTower.rec.y + (this.currentTower.rec.height / 2), this.currentTower.range);
 		}
 	}
 

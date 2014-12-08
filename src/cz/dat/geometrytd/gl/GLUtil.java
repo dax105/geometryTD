@@ -115,4 +115,28 @@ public class GLUtil {
 		GLUtil.drawRectangle(color.r, color.g, color.b, color.a, x1, x2, y1, y2);
 	}
 	
+	public static void drawCircle(float cx, float cy, int radius) {
+		double sgms = 50d;
+		
+		double theta = 2 * Math.PI / sgms; 
+		double c = Math.cos(theta);
+		double s = Math.sin(theta);
+		double t;
+
+		double x = radius;
+		double y = 0; 
+	    
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glColor4f(1f, 0f, 0f, 0.2f);
+		GL11.glBegin(GL11.GL_TRIANGLE_FAN); 
+		for(int ii = 0; ii < sgms; ii++) 
+		{ 
+			GL11.glVertex2d(x + cx, y + cy);
+			t = x;
+			x = c * x - s * y;
+			y = s * t + c * y;
+		} 
+		
+		GL11.glEnd(); 
+	}
 }

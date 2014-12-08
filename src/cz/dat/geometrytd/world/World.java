@@ -165,8 +165,9 @@ public class World extends TickListener {
 									.getTowerAt(this.mousePoint);
 							if (t != null) {
 								t.upgrade();
-							} else {
 								this.infoPanel.openTower(t);
+							} else {
+								this.infoPanel.setShowed(false);
 							}
 						}
 					}
@@ -250,7 +251,7 @@ public class World extends TickListener {
 					0.5f);
 		}
 
-		super.game.getFontManager().drawString("Current tower", this.box.x + 5,
+		super.game.getFontManager().drawString("Selected tower", this.box.x + 5,
 				this.titleY, FontManager.BIG, Color.white);
 		super.game.getFontManager().drawString(
 				this.towerNames[this.currentTowerSelected - 1],
