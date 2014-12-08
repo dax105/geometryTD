@@ -134,7 +134,10 @@ public class Level extends TickListener {
 							this.game.getSoundManager().playSound("end");
 							return;
 						}
+					} else {
+						this.game.getWorld().score += this.game.getWorld().wave *10;
 					}
+					
 					it.remove();
 				}
 			}
