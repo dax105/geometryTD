@@ -33,7 +33,7 @@ public class Level extends TickListener {
 	}
 	
 	public boolean canPlace(Point p) {
-		this.placingRectangle = new Rectangle(p.x, p.y, 64, 64);
+		this.placingRectangle = new Rectangle(p.x - World.TOWER_WIDTH_HALF, p.y - World.TOWER_WIDTH_HALF, 64, 64);
 		return !this.parser.getPathPolygon().intersects(this.placingRectangle);
 	}
 	
