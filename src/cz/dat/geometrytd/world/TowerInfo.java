@@ -14,7 +14,7 @@ public class TowerInfo extends TickListener {
 	private World w;
 	private Tower currentTower;
 	private boolean show;
-	private TextButton upgradeButton;
+	public TextButton upgradeButton;
 	private Point mousePoint = new Point();
 
 	private int startX, levelY, rangeY, damageY;
@@ -52,6 +52,9 @@ public class TowerInfo extends TickListener {
 
 	@Override
 	protected void tick() {
+		
+		
+		
 	}
 
 	@Override

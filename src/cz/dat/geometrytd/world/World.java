@@ -180,8 +180,10 @@ public class World extends TickListener {
 
 			for (Button b : buttons) {
 				if (Mouse.getEventButtonState()) {
+					this.infoPanel.upgradeButton.onDown(this.mousePoint);
 					b.onDown(this.mousePoint);
 				} else {
+					this.infoPanel.upgradeButton.onUp(this.mousePoint);
 					b.onUp(this.mousePoint);
 				}
 			}
